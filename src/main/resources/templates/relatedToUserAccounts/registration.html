@@ -20,6 +20,8 @@
                 <label th:text="#{email}">Email</label><br/>
                 <label class="validation-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Problem with email...</label>
                 <div th:if="${#fields.hasErrors('email')}"></div>
+                <label class="validation-error" th:if="${emailAlreadyExists}" th:text="#{registration.emailAlreadyRegistered}">Email already exists</label>
+                <div th:if="${emailAlreadyExists}"></div>
                 <input type="email" placeholder="Email" th:placeholder="#{email}" th:field="*{email}"/><br/>
                
                 <input type="submit" class="submit-button" value="Create account" th:value="#{registration.createAccount}"/>

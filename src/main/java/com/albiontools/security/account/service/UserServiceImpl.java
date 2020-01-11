@@ -7,7 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.albiontools.security.account.exception.EmailExistsException;
+import com.albiontools.security.account.exception.EmailAlreadyExistsException;
+import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
 import com.albiontools.security.account.model.ConfirmationToken;
@@ -39,11 +40,12 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public void registerUser(User user, HttpServletResponse response) throws EmailExistsException {
+	public void registerUser(User user, HttpServletResponse response) throws EmailAlreadyExistsException {
 
-		if (emailExists(user.getEmail())) {
+		if (userRepository.findByEmail(user.getEmail()) != null) {
 			response.addHeader("username", user.getUsername());
-			throw new EmailExistsException("Email exists: " + user.getEmail());
+			response.addHeader("email", user.getEmail());
+			throw new EmailAlreadyExistsException("Email exists: " + user.getEmail());
 		}
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -65,11 +67,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean emailExists(String email) {
-		return userRepository.findByEmail(email) != null ? true : false;
-	}
-
-	@Override
 	public void confirmateAccount(String confirmationToken) throws NonExistentTokenException {
 		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
@@ -83,40 +80,9 @@ public class UserServiceImpl implements UserService {
 			throw new NonExistentTokenException("The token does not exists!");
 
 	}
-/*
-	public void newToken(String email, String emailType) {
-		User user = userRepository.findByEmail(email);
-		if (user != null) {
-			user.setMatchingPassword(user.getPassword());
-			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
-
-			userRepository.save(user);
-
-			if (emailType.equals("confirm-account")) {
-				emailSenderService.sendVerificationEmail(user);
-			} else if (emailType.equals("confirm-reset")) {
-				emailSenderService.sendForgotPasswordEmail(user);
-			}
-
-		}
-	}
-*/
+	
 	@Override
-	public void newTokenForVerification(String email) {
-		User user = userRepository.findByEmail(email);
-		if (user != null) {
-			user.setMatchingPassword(user.getPassword());
-			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
-
-			userRepository.save(user);
-
-			emailSenderService.sendVerificationEmail(user);
-
-		}
-	}
-
-	@Override
-	public void newTokenForForgotPassword(String email) {
+	public void newTokenForVerification(String email) throws NonExistentEmailException {
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
 			user.setMatchingPassword(user.getPassword());
@@ -126,6 +92,20 @@ public class UserServiceImpl implements UserService {
 
 			emailSenderService.sendForgotPasswordEmail(user);
 
+		}
+	}
+
+	@Override
+	public void newTokenForForgotPassword(String email) throws NonExistentEmailException{
+		User user = userRepository.findByEmail(email);
+		if (user != null) {
+			user.setMatchingPassword(user.getPassword());
+			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
+			userRepository.save(user);
+
+			emailSenderService.sendVerificationEmail(user);
+		} else {
+			throw new NonExistentEmailException("The following email address does not exists: " + email);
 		}
 	}
 
@@ -157,5 +137,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return token;
 	}
+	
 
 }
