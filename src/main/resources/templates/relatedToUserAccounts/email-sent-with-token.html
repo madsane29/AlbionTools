@@ -8,10 +8,10 @@
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
 
 		<section class="form">
-			<form th:action="@{/user/token-for-new-password}" method="post">
-				<label th:text="#{emailSentWithToken.emailIsSentToEmail}">Email is sent to: </label>
-				<label th:text="${email}">Email address</label>
-            </form>
+			
+				<label th:text="#{emailSentWithToken.emailIsSentToEmail}+${email}">Email is sent to: </label>
+				<!-- <label th:text="${email}">email@example.com</label> -->
+            
 		</section>
 
     </body>

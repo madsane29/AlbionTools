@@ -8,7 +8,8 @@
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
  
         <section class="form">
-            <form th:action="@{/user/login}" method="post">
+            <form th:action="@{/user/login}" method="post">            
+            	<div th:if="${param.error}" class="validation-error" th:text="#{login.invalidUsernameAndPassword}">Invalid username and password.</div>    
                 <label th:text="#{username}">Username</label><br/>
                 <input type="text" id="username" name="username" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
                 <label th:text="#{password}">Password</label><br/>
@@ -20,7 +21,7 @@
                     <a th:href="@{/user/registration}" th:text="#{login.registration}">Registration</a>
                 </label>
                 <label class="forgot-password">
-                    <a th:href="@{/user/forgot-password}" th:text="#{login.forgotPassword}">Forgot password</a>
+                    <a th:href="@{/user/email-for-new-token}" th:text="#{login.forgotPassword}">Forgot password</a>
                 </label>
             </div>
         </section>

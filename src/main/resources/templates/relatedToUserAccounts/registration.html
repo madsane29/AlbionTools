@@ -7,14 +7,21 @@
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
 
         <section class="form">
-            <form th:action="@{/user/registration}" method="post">
+            <form th:action="@{/user/registration}" method="post" th:object="${user}">
                 <label th:text="#{username}">Username</label><br/>
-                <input type="text" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
+                <label class="validation-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Problem with username...</label>
+                <div th:if="${#fields.hasErrors('username')}"></div>
+                <input type="text" placeholder="Username" th:placeholder="#{username}" th:field="*{username}" autofocus/><br/>
                 <label th:text="#{password}">Password</label><br/>
-                <input type="password" placeholder="Password" th:placeholder="#{password}"/><br/>
-                <input type="password" placeholder="Password" th:placeholder="#{password}"/><br/>
+                <label class="validation-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Problem with password...</label>
+                <div th:if="${#fields.hasErrors('password')}"></div>
+                <input type="password" placeholder="Password" th:placeholder="#{password}" th:field="*{password}"/><br/>
+                <input type="password" placeholder="Password" th:placeholder="#{password}" th:field="*{matchingPassword}"/><br/>
                 <label th:text="#{email}">Email</label><br/>
-                <input type="email" placeholder="Email" th:placeholder="#{email}"/><br/>
+                <label class="validation-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Problem with email...</label>
+                <div th:if="${#fields.hasErrors('email')}"></div>
+                <input type="email" placeholder="Email" th:placeholder="#{email}" th:field="*{email}"/><br/>
+               
                 <input type="submit" class="submit-button" value="Create account" th:value="#{registration.createAccount}"/>
             </form>
             <div class="buttons-under-submit">

@@ -6,16 +6,15 @@
         <div th:replace="fragments/header-fragment :: header">...</div>   
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
 
-        <form class="form" action="#" th:if="${invalidCode}">
-            <label th:text="#{verification.invalidCode}">Invalid code!</label>
-            <br/><br/>
-            <input type="submit" class="verification-button" value="Send me new code!" th:value="#{verification.sendNewToken}"/>
-        </form>
-        
-         <div class="valid-code" th:if="${validCode}">
+         <div class="code-validation" th:if="${invalidCode}">
+         	<label th:text="#{verification.invalidCode}">Invalid code!</label>
+         	<br/><br/>
+         	<a class="submit-button" th:href="@{/user/email-for-new-token}" th:text="#{verification.sendNewToken}"></a>
+         </div>
+         <div class="code-validation" th:if="${validCode}">
 			<h1 th:text="#{verification.validCode}">Successfully verified your account!</h1>
-			<br>
-				<a class="loginButton" th:href="@{/login}" th:text="#{login}">Login</a>
+			<br/>
+			<a class="submit-button" th:href="@{/user/login}" th:text="#{login}">Login</a>
 		</div>
     </body>
 </html>

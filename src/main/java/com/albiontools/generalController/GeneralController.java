@@ -1,4 +1,4 @@
-package com.albiontools.controller;
+package com.albiontools.generalController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
