@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"> 
+
+<div th:replace="fragments/head-fragments :: generalHead">...</div>
+
+    <body>
+        <div th:replace="fragments/header-fragment :: header">...</div>   
+        <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
+
+		<section class="form">
+			<form th:action="@{/user/token-for-new-password}" method="post">
+				<label th:text="#{emailSentWithToken.emailIsSentToEmail}">Email is sent to: </label>
+				<label th:text="${email}">Email address</label>
+            </form>
+		</section>
+
+    </body>
+</html>

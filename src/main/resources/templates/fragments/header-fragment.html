@@ -1,14 +1,15 @@
-<html xmlns:th="http://www.thymeleaf.org"> 
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"> 
 
 <header th:fragment="header">
 	<div>
 		<h1>
-			<a href="#" th:text=#{header.title}>Albion Online Tools</a>
+			<a th:href="@{/}" th:text=#{header.title}>Albion Online Tools</a>
 		</h1>
 		<h2>
-			<a href="#" th:text=#{login}>Login</a> 
-			<a href="#" th:text=#{username}>Username</a>
-			<a href="#" th:text=#{logout}>Logout</a>
+			<a th:href="@{/user/login}" th:text=#{login} sec:authorize="!isAuthenticated()">Login</a> 
+				<a href="#" th:text="${#authentication.name}" sec:authorize="isAuthenticated()">Username</a>		
+				<a th:href="@{/user/logout}" th:text=#{logout} sec:authorize="isAuthenticated()">Logout</a>
+
 		</h2>
 	</div>
 	<hr>

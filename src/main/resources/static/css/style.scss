@@ -57,6 +57,7 @@ header {
            margin-right: 5vh;
            a {
               margin-left: 20px;
+              text-transform: capitalize;
            }
         }
     }
@@ -187,6 +188,12 @@ header {
         .forgot-password {
             margin-left: 10px;
         }
-
     }
+}
+
+.valid-code {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 2rem;
+    @include linksTextDecorationAndColor();
 }

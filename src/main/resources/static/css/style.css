@@ -46,6 +46,7 @@ header div h2 {
 
 header div h2 a {
   margin-left: 20px;
+  text-transform: capitalize;
 }
 
 .main-text {
@@ -206,5 +207,20 @@ header div h2 a {
 
 .form .buttons-under-submit .forgot-password {
   margin-left: 10px;
+}
+
+.valid-code {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 2rem;
+}
+
+.valid-code a {
+  text-decoration: none;
+  color: white;
+}
+
+.valid-code a:hover {
+  color: #222020;
 }
 /*# sourceMappingURL=style.css.map */

@@ -7,7 +7,7 @@
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
 
         <section class="form">
-            <form action="#">
+            <form th:action="@{/user/registration}" method="post">
                 <label th:text="#{username}">Username</label><br/>
                 <input type="text" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
                 <label th:text="#{password}">Password</label><br/>
@@ -19,7 +19,7 @@
             </form>
             <div class="buttons-under-submit">
                 <label class="account-already">
-                    <a href="#" th:text="#{registration.alreadyHasAnAccount}">Already has an account?</a>
+                    <a th:href="@{/user/login}" th:text="#{registration.alreadyHasAnAccount}">Already has an account?</a>
                 </label>
             </div>
         </section>
