@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/head-fragments :: indexPageHead"></div>
+
+<body>
+	<div th:replace="fragments/header-fragment :: header"></div>
+	<div th:replace="fragments/side-bar-fragment :: sideBar"></div>
+
+	<div class="main-text">
+		<p th:text="#{index.mainText}"></p>
+	</div>
+
+	<section class="contacts">
+		<div class="discord">
+			<a href="#a"> 
+				<i class="fab fa-discord fa-7x"></i>
+				<p th:text="#{index.contacts.discord}">discord</p>
+			</a>
+		</div>
+		<div class="suggestion">
+			<a href="#b"> 
+				<i class="fas fa-lightbulb fa-7x"></i>
+				<p th:text="#{index.contacts.suggestion}">Suggestion!</p>
+			</a>
+		</div>
+		<div class="email">
+			<a href="#c"> 
+				<i class="fas fa-envelope-square fa-7x"></i>
+				<p th:text="#{index.contacts.email}">ex@ex.de</p>
+			</a>
+		</div>
+	</section>
+
+</body>
+</html>

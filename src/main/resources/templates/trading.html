@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"> 
+
+<div th:replace="fragments/head-fragments :: tradingPageHead">...</div>
+
+    <body>
+        <div th:replace="fragments/header-fragment :: header">...</div>   
+        
+        
+            <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
+            <div class="main-text">
+                <div class="container-table100">
+                    <div class="wrap-table100">
+                        <div class="table100 ver2 m-b-110">
+                            <table class="tablee" data-vertable="ver2">
+                                <thead>
+                                    <tr class="row100 head">
+                                        <th class="column100 column1" data-column="column1" th:text="#{trading.table.itemName}"></th>
+                                        <th class="column100 column2" data-column="column2" th:text="#{trading.table.from}">From</th>
+                                        <th class="column100 column3" data-column="column3" th:text="#{trading.table.price}"></th>
+                                        <th class="column100 column4" data-column="column4" th:text="#{trading.table.to}">To</th>
+                                        <th class="column100 column5" data-column="column5" th:text="#{trading.table.price}"></th>
+                                        <th class="column100 column6" data-column="column6" th:text="#{trading.table.profit}">Profit</th>
+                                        <th class="column100 column7" data-column="column7" th:text="#{trading.table.delete}"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="row100">
+                                        <td class="column100 column1" data-column="column1">Hide</td>
+                                        <td class="column100 column2" data-column="column2">Martlock</td>
+                                        <td class="column100 column3" data-column="column3">123456</td>
+                                        <td class="column100 column4" data-column="column4">Caerleon</td>
+                                        <td class="column100 column5" data-column="column5">234567</td>
+                                        <td class="column100 column6" data-column="column6">111111</td>
+                                        <td class="column100 column7" data-column="column7" th:text="#{trading.table.delete}">Delete</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+		<script src="vendor/bootstrap/js/popper.js"></script>
+		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="vendor/select2/select2.min.js"></script>
+		<script src="js/main.js"></script>
+    </body>
+</html>

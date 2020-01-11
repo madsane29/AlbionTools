@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"> 
+<div th:replace="fragments/head-fragments :: generalHead">...</div>
+
+    <body>
+        <div th:replace="fragments/header-fragment :: header">...</div>   
+        <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
+
+        <section class="form">
+            <form action="#">
+                <label th:text="#{username}">Username</label><br/>
+                <input type="text" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
+                <label th:text="#{password}">Password</label><br/>
+                <input type="password" placeholder="Password" th:placeholder="#{password}"/><br/>
+                <input type="password" placeholder="Password" th:placeholder="#{password}"/><br/>
+                <label th:text="#{email}">Email</label><br/>
+                <input type="email" placeholder="Email" th:placeholder="#{email}"/><br/>
+                <input type="submit" class="submit-button" value="Create account" th:value="#{registration.createAccount}"/>
+            </form>
+            <div class="buttons-under-submit">
+                <label class="account-already">
+                    <a href="#" th:text="#{registration.alreadyHasAnAccount}">Already has an account?</a>
+                </label>
+            </div>
+        </section>
+
+    </body>
+</html>

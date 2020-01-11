@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"> 
+ 
+<div th:replace="fragments/head-fragments :: generalHead">...</div>
+
+    <body>
+        <div th:replace="fragments/header-fragment :: header">...</div>   
+        <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
+ 
+        <section class="form">
+            <form action="#">
+                <label th:text="#{username}">Username</label><br/>
+                <input type="text" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
+                <label th:text="#{password}">Password</label><br/>
+                <input type="password" placeholder="Password" th:placeholder="#{password}"/><br/>
+                <input type="submit" class="submit-button" value="Login" th:value="#{login}"/>
+            </form>
+            <div class="buttons-under-submit">
+                <label class="registrate">
+                    <a href="#" th:text="#{login.registration}">Registration</a>
+                </label>
+                <label class="forgot-password">
+                    <a href="#" th:text="#{login.forgotPassword}">Forgot password</a>
+                </label>
+            </div>
+        </section>
+
+ 
+
+    </body>
+</html>

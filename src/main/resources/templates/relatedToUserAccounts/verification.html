@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"> 
+<div th:replace="fragments/head-fragments :: generalHead">...</div>
+
+    <body>
+        <div th:replace="fragments/header-fragment :: header">...</div>   
+        <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
+
+        <form class="form" action="#">
+            <label th:text="#{verification.invalidCode}">Invalid code!</label>
+            <br/><br/>
+        
+            <input type="hidden" id="email" name="email"/>  
+            <input type="submit" class="verification-button" value="Send me new code!" th:value="#{verification.sendNewToken}"/>
+        </form>
+    </body>
+</html>
