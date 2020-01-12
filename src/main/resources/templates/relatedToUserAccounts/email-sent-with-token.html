@@ -9,7 +9,8 @@
 
 		<section class="form">
 			
-				<label th:text="#{emailSentWithToken.emailIsSentToEmail}+${email}">Email is sent to: </label>
+				<label th:text="#{emailSentWithToken.emailIsSentToEmail}">Email is sent to: </label>
+				<label th:text="${email}" th:value="${email}">example@ex.am</label>
             
 		</section>
 

@@ -2,6 +2,7 @@ package com.albiontools.security.account.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -20,6 +21,7 @@ public class EmailSenderServiceImpl implements EmailSenderService{
 		this.javaMailSender = javaMailSender;
 	}
 	
+
 	@Value("${emailSenderService.emailFrom}")
 	private String emailFrom;
 	
@@ -41,7 +43,6 @@ public class EmailSenderServiceImpl implements EmailSenderService{
         mailMessage.setSubject(verificationEmailSubject);
         mailMessage.setFrom(emailFrom);
         mailMessage.setText(verificationEmailText + user.getConfirmationToken().getConfirmationToken());
-
         javaMailSender.send(mailMessage);
 	}
 	

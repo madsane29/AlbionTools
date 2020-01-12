@@ -11,7 +11,7 @@ import com.albiontools.security.account.model.User;
 
 public interface UserService {
 	void registerUser(User user, HttpServletResponse response) throws EmailAlreadyExistsException;
-	void changePassword(String email, String password, String matchesPassword, HttpServletResponse response) throws PasswordsNotMatchException;
+	void changePassword(String email, String password, String matchesPassword) throws PasswordsNotMatchException;
 	void newTokenForVerification(String email) throws NonExistentEmailException;
 	void newTokenForForgotPassword(String email) throws NonExistentEmailException;
     

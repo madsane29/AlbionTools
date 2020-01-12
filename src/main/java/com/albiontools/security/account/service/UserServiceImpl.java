@@ -89,8 +89,8 @@ public class UserServiceImpl implements UserService {
 			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
 
 			userRepository.save(user);
-
-			emailSenderService.sendForgotPasswordEmail(user);
+			
+			emailSenderService.sendVerificationEmail(user);
 
 		}
 	}
@@ -103,14 +103,14 @@ public class UserServiceImpl implements UserService {
 			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
 			userRepository.save(user);
 
-			emailSenderService.sendVerificationEmail(user);
+			emailSenderService.sendForgotPasswordEmail(user);
 		} else {
 			throw new NonExistentEmailException("The following email address does not exists: " + email);
 		}
 	}
 
 	@Override
-	public void changePassword(String email, String password, String matchesPassword, HttpServletResponse response)
+	public void changePassword(String email, String password, String matchesPassword)
 			throws PasswordsNotMatchException {
 		User user = userRepository.findByEmail(email);
 
@@ -123,7 +123,6 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(user);
 
 		} else {
-			response.addHeader("email", user.getEmail());
 			throw new PasswordsNotMatchException("Passwords do not match!");
 		}
 
@@ -137,6 +136,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return token;
 	}
+	
 	
 
 }

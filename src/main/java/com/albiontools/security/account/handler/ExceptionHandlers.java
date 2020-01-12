@@ -27,7 +27,7 @@ public class ExceptionHandlers {
 		
 		return "relatedToUserAccounts/registration";
 	}
-
+/*
 	@ExceptionHandler(PasswordsNotMatchException.class)
 	public ModelAndView passwordsNotMatchExceptionHandler(HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView("changePassword");
@@ -36,7 +36,7 @@ public class ExceptionHandlers {
 
 		return mav;
 	}
-	
+	*/
 	@ExceptionHandler(NonExistentTokenException.class)
 	public String nonExistentTokenExceptionHandler() {
 

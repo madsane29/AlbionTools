@@ -1,10 +1,14 @@
 package com.albiontools.security.account.controller;
 
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.albiontools.security.account.exception.EmailAlreadyExistsException;
 import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
+import com.albiontools.security.account.exception.PasswordsNotMatchException;
+import com.albiontools.security.account.model.ConfirmationToken;
 import com.albiontools.security.account.model.User;
+import com.albiontools.security.account.repository.UserRepository;
 import com.albiontools.security.account.service.UserService;
 
 
@@ -71,32 +78,21 @@ public class AccountController {
 		return "relatedToUserAccounts/form-to-get-email-for-new-password";
 	}
 	
-	@PostMapping("/send-email-with-token")
-	public String sendEmailWithTokenForPasswordChange(Model model, @RequestParam(name = "email", required = false) String email, HttpServletResponse response) {
+	
+	@RequestMapping(value = "/send-email-with-token", method = {RequestMethod.GET, RequestMethod.POST} )
+	public String sendEmailWithTokenForPasswordChange(Model model, @RequestParam(name = "email", required = true) String email) {
 		if (email != null) {
+
+			model.addAttribute("email", email);
 			try {
 				userService.newTokenForForgotPassword(email);
-				response.addHeader("email", email);
-				return "redirect:/user/email-sent-with-code";
+				return "relatedToUserAccounts/email-sent-with-token";
 			} catch (NonExistentEmailException e) {
-				model.addAttribute("email", email);
 				model.addAttribute("nonExistentEmail", true);
-				return "relatedToUserAccounts/form-to-get-email-for-new-password";
 			}
-			
 		}
-		
-		
 		return "relatedToUserAccounts/form-to-get-email-for-new-password";
 	}
-	
-	@GetMapping("/email-sent-with-code")
-	public String getEmailSentWithTokenPage(Model model, HttpServletResponse response) {
-		model.addAttribute("email", response.getHeader("email"));
-
-		return "relatedToUserAccounts/email-sent-with-token";
-	}
-	
 	
 	@RequestMapping(value = "/confirm-account", method = RequestMethod.GET)
 	public String confirmUserAccount(@RequestParam(name = "token", required = false) String confirmationToken)
@@ -119,6 +115,31 @@ public class AccountController {
 		model.addAttribute("invalidCode", true);
 		
 		return "relatedToUserAccounts/verification";
+	}
+	
+	@GetMapping(value = "/confirm-reset")
+	public String formForNewPasswordPage(@RequestParam(name = "token", required = false) String confirmationToken, HttpServletResponse response, Model model)
+			throws NonExistentTokenException {
+		ConfirmationToken token = userService.getConfirmationToken(confirmationToken);
+		if (token != null) {
+			model.addAttribute("email", token.getUser().getEmail());
+			return "redirect:/set-new-password";
+		}
+		
+		return "wrong-token";
+	}
+	
+	@PostMapping(value = "/set-new-password")
+	public String changePasswordOfUserAccount(@RequestParam Map<String, String> body, Model model) {
+		try {
+			userService.changePassword(body.get("email"), body.get("password"), body.get("matchesPassword"));
+		} catch (PasswordsNotMatchException e) {
+			model.addAttribute("passwordsDoNotMatch", true);
+			return "relatedToUserAccounts/change-password";
+		}
+
+		model.addAttribute("userAccountPasswordChanged", true);
+		return "redirect:/user/login";
 	}
 	
 }
