@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.albiontools.security.account.exception.EmailAlreadyExistsException;
+import com.albiontools.security.account.exception.EmptyTokenFieldException;
 import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
@@ -17,7 +18,6 @@ import com.albiontools.security.account.model.User;
 import com.albiontools.security.account.repository.ConfirmationTokenRepository;
 import com.albiontools.security.account.repository.RoleRepository;
 import com.albiontools.security.account.repository.UserRepository;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 			throw new NonExistentTokenException("The token does not exists!");
 
 	}
-	
+
 	@Override
 	public void newTokenForVerification(String email) throws NonExistentEmailException {
 		User user = userRepository.findByEmail(email);
@@ -89,14 +89,14 @@ public class UserServiceImpl implements UserService {
 			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
 
 			userRepository.save(user);
-			
+
 			emailSenderService.sendVerificationEmail(user);
 
 		}
 	}
 
 	@Override
-	public void newTokenForForgotPassword(String email) throws NonExistentEmailException{
+	public void newTokenForForgotPassword(String email) throws NonExistentEmailException {
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
 			user.setMatchingPassword(user.getPassword());
@@ -110,10 +110,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void changePassword(String email, String password, String matchesPassword)
-			throws PasswordsNotMatchException {
-		User user = userRepository.findByEmail(email);
-
+	public void changePassword(String confirmationToken, String password, String matchesPassword)
+			throws PasswordsNotMatchException, EmptyTokenFieldException {
+		User user;
+		if (!confirmationToken.equals("")) {
+			user = confirmationTokenRepository.findByConfirmationToken(confirmationToken).getUser();
+		} else {
+			throw new EmptyTokenFieldException("Token is blank!");
+		}
+		
 		if (password.equals(matchesPassword)) {
 			user.setPassword(passwordEncoder.encode(password));
 			user.setMatchingPassword(user.getPassword());
@@ -121,11 +126,9 @@ public class UserServiceImpl implements UserService {
 			user.setConfirmationToken(null);
 
 			userRepository.save(user);
-
 		} else {
 			throw new PasswordsNotMatchException("Passwords do not match!");
 		}
-
 	}
 
 	@Override
@@ -136,7 +139,5 @@ public class UserServiceImpl implements UserService {
 		}
 		return token;
 	}
-	
-	
 
 }

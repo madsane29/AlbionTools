@@ -1,6 +1,5 @@
 package com.albiontools.security.account.controller;
 
-
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +11,18 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.albiontools.security.account.exception.EmailAlreadyExistsException;
+import com.albiontools.security.account.exception.EmptyTokenFieldException;
 import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
@@ -28,39 +31,33 @@ import com.albiontools.security.account.model.User;
 import com.albiontools.security.account.repository.UserRepository;
 import com.albiontools.security.account.service.UserService;
 
-
-
 @Controller
 @RequestMapping("/user")
 public class AccountController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/login")
 	public String getLoginPage() {
-		
+
 		return "relatedToUserAccounts/login";
 	}
-	
+
 	@GetMapping("/logout-success")
 	public String getLogoutPage() {
-		
+
 		return "redirect:/";
 	}
-	
-	
-	
+
 	@GetMapping("/registration")
 	public String getRegistrationPage(@ModelAttribute("user") User user) {
-		
+
 		return "relatedToUserAccounts/registration";
 	}
-	
+
 	@PostMapping("/registration")
-	public String registerUserAccount(
-			@ModelAttribute("user") @Valid User user, 
-			BindingResult result,
+	public String registerUserAccount(@ModelAttribute("user") @Valid User user, BindingResult result,
 			HttpServletResponse response) throws EmailAlreadyExistsException {
 
 		if (result.hasErrors()) {
@@ -68,19 +65,19 @@ public class AccountController {
 		} else {
 			userService.registerUser(user, response);
 		}
-		
+
 		return "redirect:/user/login";
 	}
-	
+
 	@GetMapping("/email-for-new-token")
 	public String askForEmailToSendNewTokenToUserPage() {
-		
+
 		return "relatedToUserAccounts/form-to-get-email-for-new-password";
 	}
-	
-	
-	@RequestMapping(value = "/send-email-with-token", method = {RequestMethod.GET, RequestMethod.POST} )
-	public String sendEmailWithTokenForPasswordChange(Model model, @RequestParam(name = "email", required = true) String email) {
+
+	@RequestMapping(value = "/send-email-with-token", method = { RequestMethod.GET, RequestMethod.POST })
+	public String sendEmailWithTokenForPasswordChange(Model model,
+			@RequestParam(name = "email", required = true) String email) {
 		if (email != null) {
 
 			model.addAttribute("email", email);
@@ -93,53 +90,64 @@ public class AccountController {
 		}
 		return "relatedToUserAccounts/form-to-get-email-for-new-password";
 	}
-	
-	@RequestMapping(value = "/confirm-account", method = RequestMethod.GET)
-	public String confirmUserAccount(@RequestParam(name = "token", required = false) String confirmationToken)
-			throws NonExistentTokenException {
+
+	@GetMapping(value = "/confirm-account")
+	public String confirmUserAccount(@RequestParam(name = "token", required = true) String confirmationToken)
+			throws NonExistentTokenException, MissingServletRequestParameterException {
 		userService.confirmateAccount(confirmationToken);
-		
-		return "redirect:/user/verification-success";
+
+		return "redirect:/user/valid-code";
 
 	}
-	
-	@GetMapping("/verification-success")
+
+	@GetMapping("/valid-code")
 	public String getVerificationSuccessPage(Model model) {
 		model.addAttribute("validCode", true);
-		
-		return "relatedToUserAccounts/verification";
+
+		return "relatedToUserAccounts/valid-invalid-code";
 	}
-	
-	@GetMapping("/verification-failed")
+
+	@GetMapping("/invalid-code")
 	public String getVerificationFailedPage(Model model) {
 		model.addAttribute("invalidCode", true);
-		
-		return "relatedToUserAccounts/verification";
+
+		return "relatedToUserAccounts/valid-invalid-code";
 	}
-	
+
 	@GetMapping(value = "/confirm-reset")
-	public String formForNewPasswordPage(@RequestParam(name = "token", required = false) String confirmationToken, HttpServletResponse response, Model model)
-			throws NonExistentTokenException {
-		ConfirmationToken token = userService.getConfirmationToken(confirmationToken);
-		if (token != null) {
-			model.addAttribute("email", token.getUser().getEmail());
-			return "redirect:/set-new-password";
+	public String formForNewPasswordPage(RedirectAttributes redirectAttributes,
+			@RequestParam(name = "token", required = true) String confirmationToken)
+			throws MissingServletRequestParameterException, NonExistentTokenException {
+
+		if (userService.getConfirmationToken(confirmationToken) != null) {
+			redirectAttributes.addFlashAttribute("token", confirmationToken);
+			return "redirect:/user/set-new-password";
 		}
-		
-		return "wrong-token";
+
+		return "redirect:/something-went-wrong";
 	}
-	
+
+	@GetMapping(value = "/set-new-password")
+	public String changePasswordForm() {
+
+		return "relatedToUserAccounts/change-password";
+	}
+
 	@PostMapping(value = "/set-new-password")
-	public String changePasswordOfUserAccount(@RequestParam Map<String, String> body, Model model) {
+	public String changePasswordOfUserAccount(@RequestParam Map<String, String> body, Model model, RedirectAttributes redirectAttributes) {
+		
 		try {
-			userService.changePassword(body.get("email"), body.get("password"), body.get("matchesPassword"));
+			userService.changePassword(body.get("token"), body.get("password"), body.get("matchesPassword"));
 		} catch (PasswordsNotMatchException e) {
 			model.addAttribute("passwordsDoNotMatch", true);
 			return "relatedToUserAccounts/change-password";
+		} catch (EmptyTokenFieldException e) {
+			return "redirect:/user/invalid-code";
 		}
 
-		model.addAttribute("userAccountPasswordChanged", true);
+		redirectAttributes.addFlashAttribute("userAccountPasswordChanged", true);
 		return "redirect:/user/login";
+
 	}
-	
+
 }

@@ -3,6 +3,7 @@ package com.albiontools.security.account.handler;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,19 +28,16 @@ public class ExceptionHandlers {
 		
 		return "relatedToUserAccounts/registration";
 	}
-/*
-	@ExceptionHandler(PasswordsNotMatchException.class)
-	public ModelAndView passwordsNotMatchExceptionHandler(HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("changePassword");
-		mav.addObject("email", response.getHeader("email"));
-		mav.addObject("passwordsNotMatch", true);
 
-		return mav;
-	}
-	*/
 	@ExceptionHandler(NonExistentTokenException.class)
 	public String nonExistentTokenExceptionHandler() {
 
-		return "redirect:/user/verification-failed";
+		return "redirect:/user/invalid-code";
+	}
+	
+	@ExceptionHandler(MissingServletRequestParameterException.class) 
+	public String missingServletRequestParameterExceptionHandler() {
+		
+		return "redirect:/user/invalid-code";
 	}
 }
