@@ -12,6 +12,7 @@
         	<div th:if="${userAccountPasswordChanged}"></div>
             <form th:action="@{/user/login}" method="post">            
             	<div th:if="${param.error}" class="validation-error" th:text="#{login.invalidUsernameAndPassword}">Invalid username and password.</div>    
+            	<div th:if="${loggedOut}" class="validation-error" th:text="#{login.successFullyLoggedOut}">Successfully logged out!</div>
                 <label th:text="#{username}">Username</label><br/>
                 <input type="text" id="username" name="username" placeholder="Username" th:placeholder="#{username}" autofocus/><br/>
                 <label th:text="#{password}">Password</label><br/>

@@ -45,9 +45,10 @@ public class AccountController {
 	}
 
 	@GetMapping("/logout-success")
-	public String getLogoutPage() {
+	public String getLogoutPage(Model model) {
+		model.addAttribute("loggedOut", true);
 
-		return "redirect:/";
+		return "relatedToUserAccounts/login";
 	}
 
 	@GetMapping("/registration")
@@ -70,7 +71,7 @@ public class AccountController {
 	}
 
 	@GetMapping("/email-for-new-token")
-	public String askForEmailToSendNewTokenToUserPage() {
+	public String getFormForEmail() {
 
 		return "relatedToUserAccounts/form-to-get-email-for-new-password";
 	}
