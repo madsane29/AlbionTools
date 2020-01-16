@@ -15,8 +15,8 @@
                 <label th:text="#{password}">Password</label><br/>
                 <label class="validation-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Problem with password...</label>
                 <div th:if="${#fields.hasErrors('password')}"></div>
-                <input type="password" placeholder="Password" th:placeholder="#{password}" th:field="*{password}"/><br/>
-                <input type="password" placeholder="Password" th:placeholder="#{password}" th:field="*{matchingPassword}"/><br/>
+                <input type="password" name="password" placeholder="Password" th:placeholder="#{password}" th:field="*{password}"/><br/>
+                <input type="password" name="matchesPassword" placeholder="Password" th:placeholder="#{password}" th:field="*{matchingPassword}"/><br/>
                 <label th:text="#{email}">Email</label><br/>
                 <label class="validation-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Problem with email...</label>
                 <div th:if="${#fields.hasErrors('email')}"></div>
@@ -32,6 +32,5 @@
                 </label>
             </div>
         </section>
-
     </body>
 </html>

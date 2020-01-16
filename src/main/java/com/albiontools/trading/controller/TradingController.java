@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/trading")
 public class TradingController {
 
-	@GetMapping("/")
+	@GetMapping("")
 	public String getTradingPage() {
 		return "trading";
 	}

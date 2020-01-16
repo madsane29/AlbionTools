@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void registerUser(User user, HttpServletResponse response) throws EmailAlreadyExistsException {
 
+		
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			response.addHeader("username", user.getUsername());
 			response.addHeader("email", user.getEmail());
@@ -80,10 +81,23 @@ public class UserServiceImpl implements UserService {
 			throw new NonExistentTokenException("The token does not exists!");
 
 	}
+	
+	@Override
+	public User setNewTokenForUser(String email) throws NonExistentEmailException {
+		User user = userRepository.findByEmail(email);
+		
+		if (user == null) throw new NonExistentEmailException("The following email address does not exists: " + email);
+		
+		user.setMatchingPassword(user.getPassword());
+		user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
+		return userRepository.save(user);
+	}
 
 	@Override
-	public void newTokenForVerification(String email) throws NonExistentEmailException {
-		User user = userRepository.findByEmail(email);
+	public void sendEmailWithTokenToVerificateAccount(String email) throws NonExistentEmailException {
+		User user = setNewTokenForUser(email);
+		emailSenderService.sendVerificationEmail(user);
+		/*User user = userRepository.findByEmail(email);
 		if (user != null) {
 			user.setMatchingPassword(user.getPassword());
 			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
@@ -92,11 +106,14 @@ public class UserServiceImpl implements UserService {
 
 			emailSenderService.sendVerificationEmail(user);
 
-		}
+		}*/
 	}
 
 	@Override
-	public void newTokenForForgotPassword(String email) throws NonExistentEmailException {
+	public void sendEmailWithTokenToChangeAccountPassword(String email) throws NonExistentEmailException {
+		User user = setNewTokenForUser(email);
+		emailSenderService.sendForgotPasswordEmail(user);
+		/*
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
 			user.setMatchingPassword(user.getPassword());
@@ -106,7 +123,7 @@ public class UserServiceImpl implements UserService {
 			emailSenderService.sendForgotPasswordEmail(user);
 		} else {
 			throw new NonExistentEmailException("The following email address does not exists: " + email);
-		}
+		}*/
 	}
 
 	@Override

@@ -12,13 +12,14 @@ import com.albiontools.security.account.model.User;
 
 public interface UserService {
 	void registerUser(User user, HttpServletResponse response) throws EmailAlreadyExistsException;
-	void newTokenForVerification(String email) throws NonExistentEmailException;
-	void newTokenForForgotPassword(String email) throws NonExistentEmailException;
+	void sendEmailWithTokenToVerificateAccount(String email) throws NonExistentEmailException;
+	void sendEmailWithTokenToChangeAccountPassword(String email) throws NonExistentEmailException;
     
     void confirmateAccount(String confirmationToken) throws NonExistentTokenException;
 	
 	ConfirmationToken getConfirmationToken(String confirmationToken) throws NonExistentTokenException;
 	void changePassword(String token, String password, String matchesPassword) throws PasswordsNotMatchException, EmptyTokenFieldException;
+	User setNewTokenForUser(String email) throws NonExistentEmailException;
 
 		
 

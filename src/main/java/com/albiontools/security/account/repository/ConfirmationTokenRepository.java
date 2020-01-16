@@ -3,6 +3,7 @@ package com.albiontools.security.account.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.albiontools.security.account.exception.NonExistentTokenException;
 import com.albiontools.security.account.model.ConfirmationToken;
 
 @Repository

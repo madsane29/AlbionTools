@@ -193,6 +193,15 @@ header {
     .validation-error {
         font-size: 1.5rem;
         color: rgb(184,0,0);
+        
+        a {
+            text-decoration: none;
+            color: rgb(184,0,0);
+
+            &:hover {
+                color: white;
+            }
+        }
     }
 }
 
