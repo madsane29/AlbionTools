@@ -42,7 +42,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		try {
 			httpSec.csrf().disable()
 			.authorizeRequests()
-				.antMatchers("/trading").permitAll()//.authenticated()
+				.antMatchers("/trading").authenticated()
 			.and()
 				.formLogin()
 					.failureHandler(customAuthenticationFailureHandler())
