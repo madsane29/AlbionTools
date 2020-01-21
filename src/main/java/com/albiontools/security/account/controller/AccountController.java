@@ -64,6 +64,10 @@ public class AccountController {
 		logger.info(ROOT_OF_CLASS + path + " is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
 	}
 	
+	private void loggerInfoWithMessage(String path, HttpServletRequest request, String message) {
+		logger.info(ROOT_OF_CLASS + path + " is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ") --> Message: " + message);
+	}
+	
 	
 	private void loggerWarn(String path, HttpServletRequest request, Exception e) {
 		logger.info(ROOT_OF_CLASS + path + " --> User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")" + " --> Exception: " + e.getMessage());
@@ -74,11 +78,12 @@ public class AccountController {
 		//logger.info(ROOT_OF_CLASS + path + " is called");
 	}
 	
-	private void loggerError(String path, List<ObjectError> errors) {
+	private void loggerError(String path, List<ObjectError> errors, HttpServletRequest request) {
 		logger.error(ROOT_OF_CLASS + path + " is called --> errors: ");
 		for (ObjectError error : errors) {
 			logger.error(error.toString());
 		}
+		logger.error("User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
 	}	
 
 	@Autowired
@@ -124,7 +129,7 @@ public class AccountController {
 		loggerInfoIsCalled(PATH_REGISTRATION, request);
 
 		if (result.hasErrors()) {
-			loggerError(PATH_REGISTRATION, result.getAllErrors());
+			loggerError(PATH_REGISTRATION, result.getAllErrors(), request);
 			return "relatedToUserAccounts/registration";
 		} else {
 			userService.registerUser(user, response);
@@ -209,7 +214,8 @@ public class AccountController {
 		model.addAttribute("invalidCodeVerificateAccount", true);
 
 		return "relatedToUserAccounts/valid-invalid-code";
-	}	
+	}
+	
 	@GetMapping(PATH_INVALID_CHANGE_PASSWORD_CODE)
 	public String getChangePasswordFailedPage(Model model, HttpServletRequest request) {
 		loggerInfoIsCalled(PATH_INVALID_CHANGE_PASSWORD_CODE, request);
@@ -218,16 +224,7 @@ public class AccountController {
 
 		return "relatedToUserAccounts/valid-invalid-code";
 	}
-	/*
-	@GetMapping(PATH_INVALID_CODE)
-	public String getVerificationFailedPage(Model model, HttpServletRequest request) {
-		loggerInfoIsCalled(PATH_INVALID_CODE, request);
-		//System.out.println(request.getRequestURI());
-		model.addAttribute("invalidCode", true);
-
-		return "relatedToUserAccounts/valid-invalid-code";
-	}
-*/
+	
 	@GetMapping(PATH_CONFIRM_RESET)
 	public String formForNewPasswordPage(RedirectAttributes redirectAttributes,
 			@RequestParam(name = "token", required = true) String confirmationToken, HttpServletRequest request)
@@ -254,6 +251,7 @@ public class AccountController {
 		loggerInfoIsCalled(PATH_SET_NEW_PASSWORD, request);
 		
 		try {
+			
 			userService.changePassword(parameters.get("token"), parameters.get("password"), parameters.get("matchesPassword"));
 		} catch (PasswordsNotMatchException e) {
 			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);

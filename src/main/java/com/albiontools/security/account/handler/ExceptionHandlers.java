@@ -32,7 +32,7 @@ public class ExceptionHandlers {
 
 	@ExceptionHandler(NonExistentTokenException.class)
 	public String nonExistentTokenExceptionHandler(Model model, HttpServletRequest request) {
-		System.out.println(request.getRequestURI());
+		//System.out.println(request.getRequestURI());
 		
 		String requestURI = request.getRequestURI();
 		if (requestURI.equals("/user/confirm-reset")) return "redirect:/user/invalid-change-password-code";
@@ -43,8 +43,11 @@ public class ExceptionHandlers {
 	}
 	
 	@ExceptionHandler(MissingServletRequestParameterException.class) 
-	public String missingServletRequestParameterExceptionHandler() {
+	public String missingServletRequestParameterExceptionHandler(HttpServletRequest request) {
+		String requestURI = request.getRequestURI();
+		if (requestURI.equals("/user/confirm-reset")) return "redirect:/user/invalid-change-password-code";
+		else if (requestURI.equals("/user/confirm-account")) return "redirect:/user/invalid-verification-code";
 		
-		return "redirect:/user/invalid-code";
+		return "redirect:/user/login";
 	}
 }

@@ -17,30 +17,21 @@ import com.albiontools.security.account.handler.CustomAuthenticationFailureHandl
 @EnableWebSecurity
 public class SecurityConf extends WebSecurityConfigurerAdapter {
 
-	
 	@Bean
 	public PasswordEncoder passEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 	
 	@Bean
 	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
 		return new CustomAuthenticationFailureHandler();
 	}
 	
-	
-	/*@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-		auth.inMemoryAuthentication().withUser("petko").password("{noop}petko").roles("USER").and().withUser("admin")
-				.password("{noop}admin").roles("ADMIN");
-	}*/
-
 	@Override
 	protected void configure(HttpSecurity httpSec) {
 		try {
-			httpSec.csrf().disable()
+			httpSec
+			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/trading").authenticated()
 			.and()
@@ -54,10 +45,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.clearAuthentication(true)
 					.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
 					.logoutSuccessUrl("/user/logout-success").permitAll()
-					.and().rememberMe()
-					;
-					
-				;
+					.and()
+					.rememberMe();
 
 			httpSec.authorizeRequests().antMatchers("/h2_console/**").permitAll();
 			httpSec.headers().frameOptions().disable();
