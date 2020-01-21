@@ -11,6 +11,8 @@ import com.albiontools.security.account.exception.EmailAlreadyExistsException;
 import com.albiontools.security.account.exception.EmptyTokenFieldException;
 import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
+import com.albiontools.security.account.exception.PasswordIsBlankException;
+import com.albiontools.security.account.exception.PasswordIsTooShortException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
 import com.albiontools.security.account.model.ConfirmationToken;
 import com.albiontools.security.account.model.Role;
@@ -108,13 +110,16 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public void changePassword(String confirmationToken, String password, String matchesPassword)
-			throws PasswordsNotMatchException, EmptyTokenFieldException {
+			throws PasswordsNotMatchException, EmptyTokenFieldException, PasswordIsTooShortException, PasswordIsBlankException {
 		User user;
 		if (!confirmationToken.equals("")) {
 			user = confirmationTokenRepository.findByConfirmationToken(confirmationToken).getUser();
 		} else {
 			throw new EmptyTokenFieldException("Token is blank!");
 		}
+		if (password.replaceAll(" ", "").length() == 0) throw new PasswordIsBlankException("Password can't be blank");
+		if (password.length() < 8) throw new PasswordIsTooShortException("Password must be 8 characters or more!");
+		
 		if (password.equals(matchesPassword)) {
 			user.setPassword(passwordEncoder.encode(password));
 			user.setMatchingPassword(user.getPassword());

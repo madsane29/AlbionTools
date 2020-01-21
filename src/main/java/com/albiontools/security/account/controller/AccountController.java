@@ -29,6 +29,8 @@ import com.albiontools.security.account.exception.EmailAlreadyExistsException;
 import com.albiontools.security.account.exception.EmptyTokenFieldException;
 import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
+import com.albiontools.security.account.exception.PasswordIsBlankException;
+import com.albiontools.security.account.exception.PasswordIsTooShortException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
 import com.albiontools.security.account.model.User;
 import com.albiontools.security.account.repository.UserRepository;
@@ -251,7 +253,6 @@ public class AccountController {
 		loggerInfoIsCalled(PATH_SET_NEW_PASSWORD, request);
 		
 		try {
-			
 			userService.changePassword(parameters.get("token"), parameters.get("password"), parameters.get("matchesPassword"));
 		} catch (PasswordsNotMatchException e) {
 			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
@@ -260,9 +261,17 @@ public class AccountController {
 			return "relatedToUserAccounts/change-password";
 		} catch (EmptyTokenFieldException e) {
 			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
-			//return "redirect:/user/invalid-code";
-
 			return "redirect:" + ROOT_OF_CLASS + PATH_INVALID_CHANGE_PASSWORD_CODE;
+		} catch (PasswordIsTooShortException e) {
+			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
+			model.addAttribute("passwordIsTooShort", true);
+			model.addAttribute("token", parameters.get("token"));
+			return "relatedToUserAccounts/change-password";	
+		} catch (PasswordIsBlankException e) {
+			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
+			model.addAttribute("passwordIsBlank", true);
+			model.addAttribute("token", parameters.get("token"));
+			return "relatedToUserAccounts/change-password";	
 		}
 
 		redirectAttributes.addFlashAttribute("userAccountPasswordChanged", true);

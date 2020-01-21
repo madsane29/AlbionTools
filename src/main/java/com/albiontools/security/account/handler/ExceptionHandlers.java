@@ -32,7 +32,6 @@ public class ExceptionHandlers {
 
 	@ExceptionHandler(NonExistentTokenException.class)
 	public String nonExistentTokenExceptionHandler(Model model, HttpServletRequest request) {
-		//System.out.println(request.getRequestURI());
 		
 		String requestURI = request.getRequestURI();
 		if (requestURI.equals("/user/confirm-reset")) return "redirect:/user/invalid-change-password-code";
