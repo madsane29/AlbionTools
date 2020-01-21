@@ -8,12 +8,13 @@
 
         <section class="form">
             <form th:action="@{/user/registration}" method="post" th:object="${user}">
-                <label th:text="#{username}">Username</label><br/>
+                <!-- <label th:text="#{username}">Username</label><br/>
                 <label class="validation-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Problem with username...</label>
                 <div th:if="${#fields.hasErrors('username')}"></div>
                 <input type="text" placeholder="Username" th:placeholder="#{username}" th:field="*{username}" autofocus/><br/>
                 <label th:text="#{password}">Password</label><br/>
                 <label class="validation-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Problem with password...</label>
+                <label th:if="${#fields.hasErrors('global')}" th:text="#{registration.passwordsDoNotMatch}">Passwords do not match!<br/></label>
                 <div th:if="${#fields.hasErrors('password')}"></div>
                 <input type="password" name="password" placeholder="Password" th:placeholder="#{password}" th:field="*{password}"/><br/>
                 <input type="password" name="matchesPassword" placeholder="Password" th:placeholder="#{password}" th:field="*{matchingPassword}"/><br/>
@@ -23,7 +24,21 @@
                 <label class="validation-error" th:if="${emailAlreadyExists}" th:text="#{registration.emailAlreadyRegistered}">Email already exists</label>
                 <div th:if="${emailAlreadyExists}"></div>
                 <input type="email" placeholder="Email" th:placeholder="#{email}" th:field="*{email}"/><br/>
+               -->
                
+                <label th:text="#{username}">Username</label><br/>
+                <div class="validation-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Problem with username...</div>
+                <input type="text" placeholder="Username" th:placeholder="#{username}" th:field="*{username}" autofocus/><br/>
+                <label th:text="#{password}">Password</label><br/>
+                <div class="validation-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Problem with password...</div>
+                <div class="validation-error" th:if="${#fields.hasErrors('global')}" th:text="#{registration.passwordsDoNotMatch}">Passwords do not match!</div>
+                <input type="password" name="password" placeholder="Password" th:placeholder="#{password}" th:field="*{password}"/><br/>
+                <input type="password" name="matchesPassword" placeholder="Password" th:placeholder="#{password}" th:field="*{matchingPassword}"/><br/>
+                <label th:text="#{email}">Email</label><br/>
+                <div class="validation-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Problem with email...</div>
+                <div class="validation-error" th:if="${emailAlreadyExists}" th:text="#{registration.emailAlreadyRegistered}">Email already exists</div>
+                <input type="email" placeholder="Email" th:placeholder="#{email}" th:field="*{email}"/><br/>
+                
                 <input type="submit" class="submit-button" value="Create account" th:value="#{registration.createAccount}"/>
             </form>
             <div class="buttons-under-submit">

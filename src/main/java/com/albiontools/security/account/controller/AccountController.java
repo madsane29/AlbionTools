@@ -1,10 +1,9 @@
 package com.albiontools.security.account.controller;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +31,7 @@ import com.albiontools.security.account.exception.NonExistentEmailException;
 import com.albiontools.security.account.exception.NonExistentTokenException;
 import com.albiontools.security.account.exception.PasswordsNotMatchException;
 import com.albiontools.security.account.model.User;
+import com.albiontools.security.account.repository.UserRepository;
 import com.albiontools.security.account.service.UserService;
 
 @Controller
@@ -52,13 +53,21 @@ public class AccountController {
 	private static final String PATH_INVALID_CODE = "/invalid-code";
 	private static final String PATH_CONFIRM_RESET = "/confirm-reset";
 	private static final String PATH_SET_NEW_PASSWORD = "/set-new-password";
+	private static final String PATH_INVALID_CHANGE_PASSWORD_CODE = "/invalid-change-password-code";
+	private static final String PATH_INVALID_VERIFICATION_CODE = "/invalid-verification-code";
 	
 	
 	
 
-	Logger logger = LoggerFactory.getLogger(getClass());
-	private void loggerInfo(String path) {
-		logger.info(ROOT_OF_CLASS + path + " is called");
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	private void loggerInfoIsCalled(String path, HttpServletRequest request) {
+		logger.info(ROOT_OF_CLASS + path + " is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
+	}
+	
+	
+	private void loggerWarn(String path, HttpServletRequest request, Exception e) {
+		logger.info(ROOT_OF_CLASS + path + " --> User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")" + " --> Exception: " + e.getMessage());
+		
 	}
 	
 	private void loggerInfoAttributeAddedToModel(String path, String attribute) {
@@ -70,50 +79,49 @@ public class AccountController {
 		for (ObjectError error : errors) {
 			logger.error(error.toString());
 		}
-	}
-	
+	}	
 
 	@Autowired
 	private UserService userService;
 
 	@GetMapping(PATH_LOGIN)
-	public String getLoginPage() {
-		loggerInfo(PATH_LOGIN);
+	public String getLoginPage(HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_LOGIN, request);
 		return "relatedToUserAccounts/login";
 	}
 
 	@GetMapping(PATH_LOGOUT_SUCCESS)
-	public String getLogoutLoginPage(Model model) {
-		loggerInfo(PATH_LOGOUT_SUCCESS);
+	public String getLogoutLoginPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_LOGOUT_SUCCESS, request);
 		model.addAttribute("loggedOut", true);
 		return "relatedToUserAccounts/login";
 	}
 	
 	@GetMapping(PATH_DISABLED_ACCOUNT)
-	public String getDisabledAccountLoginPage(Model model) {
-		loggerInfo(PATH_DISABLED_ACCOUNT);
+	public String getDisabledAccountLoginPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_DISABLED_ACCOUNT, request);
 		model.addAttribute("disabledAccount", true);
 
 		return "relatedToUserAccounts/login";
 	}
 	
 	@GetMapping(PATH_BAD_CREDENTIALS)
-	public String getBadCredentialsLoginPage(Model model) {
-		loggerInfo(PATH_BAD_CREDENTIALS);
+	public String getBadCredentialsLoginPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_BAD_CREDENTIALS, request);
 		model.addAttribute("badCredentials", true);
 		return "relatedToUserAccounts/login";
 	}
 
 	@GetMapping(PATH_REGISTRATION)
-	public String getRegistrationPage(@ModelAttribute("user") User user) {
-		loggerInfo(PATH_REGISTRATION);
+	public String getRegistrationPage(@ModelAttribute("user") User user, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_REGISTRATION, request);
 		return "relatedToUserAccounts/registration";
 	}
 
 	@PostMapping(PATH_REGISTRATION)
 	public String registerUserAccount(@ModelAttribute("user") @Valid User user, BindingResult result,
-			HttpServletResponse response) throws EmailAlreadyExistsException {
-		loggerInfo(PATH_REGISTRATION);
+			HttpServletResponse response, HttpServletRequest request) throws EmailAlreadyExistsException {
+		loggerInfoIsCalled(PATH_REGISTRATION, request);
 
 		if (result.hasErrors()) {
 			loggerError(PATH_REGISTRATION, result.getAllErrors());
@@ -122,35 +130,37 @@ public class AccountController {
 			userService.registerUser(user, response);
 		}
 
-		return "redirect:/user/login";
+		//return "redirect:/user/login";
+		return "redirect:" + ROOT_OF_CLASS + PATH_LOGIN;
 	}
 	
 	@GetMapping(PATH_SEND_EMAIL_TO_VERIFICATE_ACCOUNT)
-	public String getFormForEmailForVerificationCode(Model model) {
-		loggerInfo(PATH_SEND_EMAIL_TO_VERIFICATE_ACCOUNT);
+	public String getFormForEmailForVerificationCode(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_SEND_EMAIL_TO_VERIFICATE_ACCOUNT, request);
 		model.addAttribute("verificateAccountEmailForm", true);
 		
 		return "relatedToUserAccounts/form-to-get-email";
 	}
 
 	@GetMapping(PATH_SEND_EMAIL_TO_CHANGE_PASSWORD)
-	public String getFormForEmailForNewPassword(Model model) {
-		loggerInfo(PATH_SEND_EMAIL_TO_CHANGE_PASSWORD);
+	public String getFormForEmailForNewPassword(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_SEND_EMAIL_TO_CHANGE_PASSWORD, request);
 		model.addAttribute("forgotPasswordEmailForm", true);
 
 		return "relatedToUserAccounts/form-to-get-email";
 	}
 
-	@RequestMapping(value = PATH_FORGOT_PASSWORD_SEND_EMAIL_WITH_TOKEN, method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = PATH_FORGOT_PASSWORD_SEND_EMAIL_WITH_TOKEN, method = {  RequestMethod.POST })
 	public String sendEmailWithTokenForPasswordChange(Model model,
-			@RequestParam(name = "email", required = true) String email) {
-		loggerInfo(PATH_FORGOT_PASSWORD_SEND_EMAIL_WITH_TOKEN);
+			@RequestParam(name = "email", required = true) String email, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_FORGOT_PASSWORD_SEND_EMAIL_WITH_TOKEN, request);
 		if (email != null) {
 			model.addAttribute("email", email);
 			try {
 				userService.sendEmailWithTokenToChangeAccountPassword(email);
 				return "relatedToUserAccounts/email-sent-with-token";
 			} catch (NonExistentEmailException e) {
+				model.addAttribute("forgotPasswordEmailForm", true);
 				model.addAttribute("nonExistentEmail", true);
 			}
 		}
@@ -159,14 +169,15 @@ public class AccountController {
 	
 	@RequestMapping(value = PATH_ACCOUNT_VERIFICATION_SEND_EMAIL_WITH_TOKEN, method = { RequestMethod.GET, RequestMethod.POST })
 	public String sendEmailWithTokenForAccountVerification(Model model,
-			@RequestParam(name = "email", required = true) String email) {
-		loggerInfo(PATH_ACCOUNT_VERIFICATION_SEND_EMAIL_WITH_TOKEN);
+			@RequestParam(name = "email", required = true) String email, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_ACCOUNT_VERIFICATION_SEND_EMAIL_WITH_TOKEN, request);
 		if (email != null) {
 			model.addAttribute("email", email);
 			try {
 				userService.sendEmailWithTokenToVerificateAccount(email);
 				return "relatedToUserAccounts/email-sent-with-token";
 			} catch (NonExistentEmailException e) {
+				model.addAttribute("verificateAccountEmailForm", true);
 				model.addAttribute("nonExistentEmail", true);
 			}
 		}
@@ -174,68 +185,91 @@ public class AccountController {
 	}
 
 	@GetMapping(PATH_CONFIRM_ACCOUNT)
-	public String confirmUserAccount(@RequestParam(name = "token", required = true) String confirmationToken)
+	public String confirmUserAccount(@RequestParam(name = "token", required = true) String confirmationToken, HttpServletRequest request)
 			throws NonExistentTokenException, MissingServletRequestParameterException {
-		loggerInfo(PATH_CONFIRM_ACCOUNT);
+		loggerInfoIsCalled(PATH_CONFIRM_ACCOUNT, request);
 		userService.confirmateAccount(confirmationToken);
 
-		return "redirect:/user/valid-code";
+		//return "redirect:/user/valid-code";
+		return "redirect:" + ROOT_OF_CLASS + PATH_VALID_CODE;
 
 	}
 
 	@GetMapping(PATH_VALID_CODE)
-	public String getVerificationSuccessPage(Model model) {
-		loggerInfo(PATH_VALID_CODE);
+	public String getVerificationSuccessPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_VALID_CODE, request);
 		model.addAttribute("validCode", true);
 
 		return "relatedToUserAccounts/valid-invalid-code";
 	}
+	@GetMapping(PATH_INVALID_VERIFICATION_CODE)
+	public String getVerificationFailedPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_INVALID_CODE, request);
+		//System.out.println(request.getRequestURI());
+		model.addAttribute("invalidCodeVerificateAccount", true);
 
+		return "relatedToUserAccounts/valid-invalid-code";
+	}	
+	@GetMapping(PATH_INVALID_CHANGE_PASSWORD_CODE)
+	public String getChangePasswordFailedPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_INVALID_CODE, request);
+		//System.out.println(request.getRequestURI());
+		model.addAttribute("invalidCodeChangePassword", true);
+
+		return "relatedToUserAccounts/valid-invalid-code";
+	}
+	/*
 	@GetMapping(PATH_INVALID_CODE)
-	public String getVerificationFailedPage(Model model) {
-		loggerInfo(PATH_INVALID_CODE);
+	public String getVerificationFailedPage(Model model, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_INVALID_CODE, request);
+		//System.out.println(request.getRequestURI());
 		model.addAttribute("invalidCode", true);
 
 		return "relatedToUserAccounts/valid-invalid-code";
 	}
-
+*/
 	@GetMapping(PATH_CONFIRM_RESET)
 	public String formForNewPasswordPage(RedirectAttributes redirectAttributes,
-			@RequestParam(name = "token", required = true) String confirmationToken)
+			@RequestParam(name = "token", required = true) String confirmationToken, HttpServletRequest request)
 			throws MissingServletRequestParameterException, NonExistentTokenException {
-		loggerInfo(PATH_CONFIRM_RESET);
-
+		loggerInfoIsCalled(PATH_CONFIRM_RESET, request);
+		
 		if (userService.getConfirmationToken(confirmationToken) != null) {
 			redirectAttributes.addFlashAttribute("token", confirmationToken);
-			return "redirect:/user/set-new-password";
+			return "redirect:" + ROOT_OF_CLASS + PATH_SET_NEW_PASSWORD;
 		}
 
 		return "redirect:/something-went-wrong";
 	}
+	
 
 	@GetMapping(PATH_SET_NEW_PASSWORD)
-	public String changePasswordForm() {
-		loggerInfo(PATH_SET_NEW_PASSWORD);
-
+	public String changePasswordForm(HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_SET_NEW_PASSWORD, request);
 		return "relatedToUserAccounts/change-password";
 	}
 
 	@PostMapping(PATH_SET_NEW_PASSWORD)
-	public String changePasswordOfUserAccount(@RequestParam Map<String, String> parameters, Model model, RedirectAttributes redirectAttributes) {
-		loggerInfo(PATH_SET_NEW_PASSWORD);
+	public String changePasswordOfUserAccount(@RequestParam Map<String, String> parameters, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+		loggerInfoIsCalled(PATH_SET_NEW_PASSWORD, request);
 		
 		try {
 			userService.changePassword(parameters.get("token"), parameters.get("password"), parameters.get("matchesPassword"));
 		} catch (PasswordsNotMatchException e) {
+			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
 			model.addAttribute("passwordsDoNotMatch", true);
+			model.addAttribute("token", parameters.get("token"));
 			return "relatedToUserAccounts/change-password";
 		} catch (EmptyTokenFieldException e) {
-			return "redirect:/user/invalid-code";
+			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
+			//return "redirect:/user/invalid-code";
+
+			return "redirect:" + ROOT_OF_CLASS + PATH_INVALID_CODE;
 		}
 
 		redirectAttributes.addFlashAttribute("userAccountPasswordChanged", true);
-		return "redirect:/user/login";
-
+		return "redirect:" + ROOT_OF_CLASS + PATH_LOGIN;
 	}
-
+	
+	
 }

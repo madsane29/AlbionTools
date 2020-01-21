@@ -17,9 +17,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.albiontools.security.account.validator.PasswordMatches;
+
 
 @Entity(name = "users")
-//@PasswordMatches
+@PasswordMatches
 public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
@@ -51,7 +53,7 @@ public class User {
 	private Boolean isCredentialsNonExpired = true;
 	private Boolean isEnabled = false;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "token_id")
 	private ConfirmationToken confirmationToken;
 	

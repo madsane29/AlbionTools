@@ -6,11 +6,20 @@
         <div th:replace="fragments/header-fragment :: header">...</div>   
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
 
-         <div class="code-validation" th:if="${invalidCode}">
+         <div class="code-validation" th:if="${invalidCodeVerificateAccount}">
          	<label th:text="#{verification.invalidCode}">Invalid code!</label>
          	<br/><br/>
-         	<a class="submit-button" th:href="@{/user/email-for-new-token}" th:text="#{verification.sendNewToken}"></a>
+         	<a class="submit-button" th:href="@{/user/send-email-to-verificate-account}" th:text="#{verification.sendNewToken}"></a>
          </div>
+         
+         
+         <div class="code-validation" th:if="${invalidCodeChangePassword}">
+         	<label th:text="#{verification.invalidCode}">Invalid code!</label>
+         	<br/><br/>
+         	<a class="submit-button" th:href="@{/user/send-email-to-change-password}" th:text="#{verification.sendNewToken}"></a>
+         </div>
+         
+         
          <div class="code-validation" th:if="${validCode}">
 			<h1 th:text="#{verification.validCode}">Successfully verified your account!</h1>
 			<br/>

@@ -1,5 +1,6 @@
 package com.albiontools.security.account.handler;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
@@ -30,9 +31,15 @@ public class ExceptionHandlers {
 	}
 
 	@ExceptionHandler(NonExistentTokenException.class)
-	public String nonExistentTokenExceptionHandler() {
-
-		return "redirect:/user/invalid-code";
+	public String nonExistentTokenExceptionHandler(Model model, HttpServletRequest request) {
+		System.out.println(request.getRequestURI());
+		
+		String requestURI = request.getRequestURI();
+		if (requestURI.equals("/user/confirm-reset")) return "redirect:/user/invalid-change-password-code";
+		else if (requestURI.equals("/user/confirm-account")) return "redirect:/user/invalid-verification-code";
+		
+		
+		return "redirect:/user/login";
 	}
 	
 	@ExceptionHandler(MissingServletRequestParameterException.class) 

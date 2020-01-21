@@ -41,8 +41,6 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public void registerUser(User user, HttpServletResponse response) throws EmailAlreadyExistsException {
-
-		
 		if (userRepository.findByEmail(user.getEmail()) != null) {
 			response.addHeader("username", user.getUsername());
 			response.addHeader("email", user.getEmail());
@@ -51,7 +49,6 @@ public class UserServiceImpl implements UserService {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setMatchingPassword(user.getPassword());
-
 		user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
 
 		Role userRole = roleRepository.findByName(ROLE_USER);
@@ -64,9 +61,9 @@ public class UserServiceImpl implements UserService {
 
 		userRepository.save(user);
 		emailSenderService.sendVerificationEmail(user);
-
 	}
 
+	@Transactional
 	@Override
 	public void confirmateAccount(String confirmationToken) throws NonExistentTokenException {
 		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
@@ -82,50 +79,33 @@ public class UserServiceImpl implements UserService {
 
 	}
 	
+	@Transactional
 	@Override
 	public User setNewTokenForUser(String email) throws NonExistentEmailException {
 		User user = userRepository.findByEmail(email);
-		
+			
 		if (user == null) throw new NonExistentEmailException("The following email address does not exists: " + email);
-		
 		user.setMatchingPassword(user.getPassword());
 		user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
-		return userRepository.save(user);
+		
+		return userRepository.save(user);	
 	}
 
+	@Transactional
 	@Override
 	public void sendEmailWithTokenToVerificateAccount(String email) throws NonExistentEmailException {
 		User user = setNewTokenForUser(email);
 		emailSenderService.sendVerificationEmail(user);
-		/*User user = userRepository.findByEmail(email);
-		if (user != null) {
-			user.setMatchingPassword(user.getPassword());
-			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
-
-			userRepository.save(user);
-
-			emailSenderService.sendVerificationEmail(user);
-
-		}*/
 	}
 
+	@Transactional
 	@Override
 	public void sendEmailWithTokenToChangeAccountPassword(String email) throws NonExistentEmailException {
 		User user = setNewTokenForUser(email);
 		emailSenderService.sendForgotPasswordEmail(user);
-		/*
-		User user = userRepository.findByEmail(email);
-		if (user != null) {
-			user.setMatchingPassword(user.getPassword());
-			user.setConfirmationToken(confirmationTokenRepository.save(new ConfirmationToken(user)));
-			userRepository.save(user);
-
-			emailSenderService.sendForgotPasswordEmail(user);
-		} else {
-			throw new NonExistentEmailException("The following email address does not exists: " + email);
-		}*/
 	}
 
+	@Transactional
 	@Override
 	public void changePassword(String confirmationToken, String password, String matchesPassword)
 			throws PasswordsNotMatchException, EmptyTokenFieldException {
@@ -135,7 +115,6 @@ public class UserServiceImpl implements UserService {
 		} else {
 			throw new EmptyTokenFieldException("Token is blank!");
 		}
-		
 		if (password.equals(matchesPassword)) {
 			user.setPassword(passwordEncoder.encode(password));
 			user.setMatchingPassword(user.getPassword());
@@ -155,6 +134,11 @@ public class UserServiceImpl implements UserService {
 			throw new NonExistentTokenException("The token does not exists!");
 		}
 		return token;
+	}
+	
+	@Override
+	public User getUserByConfirmationToken(String confirmationToken) {
+		return confirmationTokenRepository.findByConfirmationToken(confirmationToken).getUser();
 	}
 
 }
