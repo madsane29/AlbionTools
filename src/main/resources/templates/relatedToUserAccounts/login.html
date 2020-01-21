@@ -2,7 +2,6 @@
  <html xmlns:th="http://www.thymeleaf.org"> 
  
 <div th:replace="fragments/head-fragments :: generalHead">...</div>
-
     <body>
         <div th:replace="fragments/header-fragment :: header">...</div>   
         <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
@@ -27,6 +26,9 @@
                 <label th:text="#{password}">Password</label><br/>
                 <input type="password" id="password" name="password" placeholder="Password" th:placeholder="#{password}"/><br/>
                 <input type="submit" class="submit-button" value="Login" th:value="#{login}"/>
+                <br/>
+                <input class="checkbox" type="checkbox" id="remember-me" name="remember-me" />
+                <label class="remember-me" for="remember-me" th:text="#{login.rememberMe}">Remember me</label>
             </form>
             <div class="buttons-under-submit">
                 <label class="registrate">

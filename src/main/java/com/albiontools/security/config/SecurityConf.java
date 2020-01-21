@@ -49,10 +49,15 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.loginPage("/user/login").permitAll()
 					.and()
 				.logout()
+					.deleteCookies("JSESSIONID")
 					.invalidateHttpSession(true)
 					.clearAuthentication(true)
 					.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-					.logoutSuccessUrl("/user/logout-success").permitAll();
+					.logoutSuccessUrl("/user/logout-success").permitAll()
+					.and().rememberMe()
+					;
+					
+				;
 
 			httpSec.authorizeRequests().antMatchers("/h2_console/**").permitAll();
 			httpSec.headers().frameOptions().disable();

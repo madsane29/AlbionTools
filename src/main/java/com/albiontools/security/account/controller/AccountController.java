@@ -50,7 +50,7 @@ public class AccountController {
 	private static final String PATH_ACCOUNT_VERIFICATION_SEND_EMAIL_WITH_TOKEN = "/account-verification-send-email-with-token";
 	private static final String PATH_CONFIRM_ACCOUNT = "/confirm-account";
 	private static final String PATH_VALID_CODE = "/valid-code";
-	private static final String PATH_INVALID_CODE = "/invalid-code";
+	//private static final String PATH_INVALID_CODE = "/invalid-code";
 	private static final String PATH_CONFIRM_RESET = "/confirm-reset";
 	private static final String PATH_SET_NEW_PASSWORD = "/set-new-password";
 	private static final String PATH_INVALID_CHANGE_PASSWORD_CODE = "/invalid-change-password-code";
@@ -204,7 +204,7 @@ public class AccountController {
 	}
 	@GetMapping(PATH_INVALID_VERIFICATION_CODE)
 	public String getVerificationFailedPage(Model model, HttpServletRequest request) {
-		loggerInfoIsCalled(PATH_INVALID_CODE, request);
+		loggerInfoIsCalled(PATH_INVALID_VERIFICATION_CODE, request);
 		//System.out.println(request.getRequestURI());
 		model.addAttribute("invalidCodeVerificateAccount", true);
 
@@ -212,7 +212,7 @@ public class AccountController {
 	}	
 	@GetMapping(PATH_INVALID_CHANGE_PASSWORD_CODE)
 	public String getChangePasswordFailedPage(Model model, HttpServletRequest request) {
-		loggerInfoIsCalled(PATH_INVALID_CODE, request);
+		loggerInfoIsCalled(PATH_INVALID_CHANGE_PASSWORD_CODE, request);
 		//System.out.println(request.getRequestURI());
 		model.addAttribute("invalidCodeChangePassword", true);
 
@@ -264,7 +264,7 @@ public class AccountController {
 			loggerWarn(PATH_SET_NEW_PASSWORD, request, e);
 			//return "redirect:/user/invalid-code";
 
-			return "redirect:" + ROOT_OF_CLASS + PATH_INVALID_CODE;
+			return "redirect:" + ROOT_OF_CLASS + PATH_INVALID_CHANGE_PASSWORD_CODE;
 		}
 
 		redirectAttributes.addFlashAttribute("userAccountPasswordChanged", true);

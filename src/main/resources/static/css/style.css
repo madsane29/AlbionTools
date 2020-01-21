@@ -223,6 +223,27 @@ header div h2 a {
   color: white;
 }
 
+.form .remember-me {
+  font-size: 0.5em;
+}
+
+.form .checkbox {
+  width: auto;
+  height: auto;
+  min-width: auto;
+  background: #3a3939;
+  color: white;
+  border: 0px;
+  border-radius: 100px;
+  outline: none;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  font-size: 1em;
+}
+
 .code-validation {
   text-align: center;
   margin-top: 100px;
