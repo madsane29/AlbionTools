@@ -1,5 +1,6 @@
 package com.albiontools.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +17,6 @@ import com.albiontools.security.account.handler.CustomAuthenticationFailureHandl
 @Configuration
 @EnableWebSecurity
 public class SecurityConf extends WebSecurityConfigurerAdapter {
-
 	@Bean
 	public PasswordEncoder passEncoder() {
 		return new BCryptPasswordEncoder();

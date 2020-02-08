@@ -13,15 +13,17 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.albiontools.logger.CustomLogger;
+
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
+	private CustomLogger customLogger = new CustomLogger(getClass());
+	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
-
-		Logger logger = LoggerFactory.getLogger(getClass());
-		logger.warn("Exception: " + exception.getMessage());
+		customLogger.loggerWarn(request, exception);
 		if (exception instanceof BadCredentialsException) response.sendRedirect("/user/bad-credentials");
 		else if (exception instanceof DisabledException) response.sendRedirect("/user/disabled-account");
 

@@ -6,35 +6,32 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.ObjectError;
 
-public class CustomLogger {
 
-	private Logger logger;// = LoggerFactory.getLogger(getClass());
+public class CustomLogger {
+	
+	private Logger logger;
 	
 	public CustomLogger(Class clss) {
 		logger = LoggerFactory.getLogger(clss);
 	}
 	
-	public void loggerInfoIsCalled(String path, HttpServletRequest request) {
-		logger.info(path + " is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
+	public void loggerInfoIsCalled(HttpServletRequest request) {
+		logger.info("\"" + request.getRequestURI() + "\" is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
 	}
 	
-	public void loggerInfoWithMessage(String path, HttpServletRequest request, String message) {
-		logger.info(path + " is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ") --> Message: " + message);
+	public void loggerInfoWithMessage(HttpServletRequest request, String message) {
+		logger.info("\"" + request.getRequestURI() + "\" is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ") --> Message: " + message);
 	}
 	
-	
-	public void loggerWarn(String path, HttpServletRequest request, Exception e) {
-		logger.info(path + " --> User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")" + " --> Exception: " + e.getMessage());
-		
+	public void loggerWarn(HttpServletRequest request, Exception e) {
+		logger.info("\"" + request.getRequestURI() + "\" --> User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")" + " --> Exception: " + e.getMessage());
 	}
 	
-	
-	public void loggerError(String path, List<ObjectError> errors, HttpServletRequest request) {
-		logger.error(path + " is called --> errors: ");
+	public void loggerError(List<ObjectError> errors, HttpServletRequest request) {
+		logger.error("\"" + request.getRequestURI() + "\" is called --> errors: ");
 		for (ObjectError error : errors) {
 			logger.error(error.toString());
 		}

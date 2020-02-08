@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.albiontools.security.account.model.Role;
 
-
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 	HashSet<Role> findById(long id);
