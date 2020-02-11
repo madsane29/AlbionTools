@@ -1,0 +1,26 @@
+$sideBarLinksBackgroundColor: rgb(58, 57, 57);
+$textColor: rgb(255, 255, 255);
+$sideBarsBaseSize: 60;
+$linksHoverColor: rgb(34, 32, 32);
+$placeHolderColor: rgb(109, 105, 105);
+
+@function sideBarsDistances($sideBarsMultiplicator) {
+    $result: $sideBarsMultiplicator * $sideBarsBaseSize;
+    @return $result;
+}
+
+@mixin linksTextDecorationAndColor {
+    a {
+        text-decoration: none;
+        color: $textColor;
+
+        &:hover {
+            color: $linksHoverColor;
+        }
+    }
+}
+
+@mixin background {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898; 
+    background-blend-mode: multiply,multiply;
+}

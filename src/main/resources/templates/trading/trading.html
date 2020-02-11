@@ -9,64 +9,61 @@
         
             <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
             
-             <form method="get">
-                    <table class="">
-                        <tr>
-                            <td>
+             <form th:action="@{/trading/get-data}" method="get" class="form">
+               
+                        <div class="trading-input-fields-table">
+ 
                             <span>From</span>
-                                <br>
-                                <select name="fromCity" size="6" multiple required>
-
-                                    <option>Bridgewatch</option>
-                                    <option>Caerleon</option>
-                                    <option>Fort Sterling</option>
-                                    <option>Lymhurst</option>
-                                    <option>Martlock</option>
-                                    <option>Thetford</option>
-
-                                </select>
-                            </td>
-
-                            <td>
                             <span>To</span>
-                                <br>
+                               <br/>
+                                <select name="fromCity" size="6" multiple required>
+                                    <option selected>Bridgewatch</option>
+                                    <option>Caerleon</option>
+                                    <option>Fort Sterling</option>
+                                    <option>Lymhurst</option>
+                                    <option>Martlock</option>
+                                    <option>Thetford</option>
+
+                                </select>
                                 <select name="toCity" size="6" multiple required>
-                                    <option>Bridgewatch</option>
+                                    <option selected>Bridgewatch</option>
                                     <option>Caerleon</option>
                                     <option>Fort Sterling</option>
                                     <option>Lymhurst</option>
                                     <option>Martlock</option>
                                     <option>Thetford</option>
                                 </select>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td><span>Minimum profit</span>
-                                <br>
-                                <input type="number" min="0" max="999999999" value="0" style="text-align: center;" name="profitMinimum" maxlength="9" size="6">
-                            </td>
-                            <td><span>Maximum profit</span>
-                                <br>
-                                <input type="number" min="0" max="999999999" value="999999" style="text-align: center;" name="profitMaximum" maxlength="9" size="6">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="radio" value="2" name="auctionTax" style="text-align: center;"/>
-                                <span>2% tax</span>
-                            </td>
-
-                            <td>
-                                <input type="radio" value="4" name="auctionTax" style="text-align: center;"/>
-                                <span>4% tax</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" align="center">
-                                <input type="submit" class="btn btn-primary btn-wide" value="Get the best deals!">
-                        </tr>
-                    </table>
+                                <br/>
+                           <span>Minimum profit</span>
+                           <span>Maximum profit</span>
+                                 <br/>
+                                <input type="number" min="0" max="999999999" value="0" name="profitMinimum" maxlength="9" size="6"/>
+                                <input type="number" min="0" max="999999999" value="999999999" name="profitMaximum" maxlength="9" size="6"/>
+                       
+                                <div class="cntr">
+                                    <label for="rdo-1" class="btn-radio">
+                                      <input type="radio" id="rdo-1" name="auctionTax" checked>
+                                      <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <circle cx="10" cy="10" r="9"></circle>
+                                        <path d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z" class="inner"></path>
+                                        <path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path>
+                                      </svg>
+                                      <span>2% tax</span>
+                                    </label>
+                                    <label for="rdo-2" class="btn-radio">
+                                      <input type="radio" id="rdo-2" name="auctionTax">
+                                      <svg width="20px" height="20px" viewBox="0 0 20 20">
+                                        <circle cx="10" cy="10" r="9"></circle>
+                                        <path d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z" class="inner"></path>
+                                        <path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path>
+                                      </svg>
+                                      <span>4% tax</span>
+                                    </label>
+                                <br/>
+                               
+                        
+                                <input type="submit" class="get-button" value="Get the best deals!"/>
+                      
                 </form>
                 
             <div class="main-text">

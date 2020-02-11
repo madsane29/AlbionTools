@@ -22,8 +22,9 @@ public interface UserService {
 	ConfirmationToken getConfirmationToken(String confirmationToken) throws NonExistentTokenException;
 	void changePassword(String token, String password, String matchesPassword) throws PasswordsNotMatchException, EmptyTokenFieldException, PasswordIsTooShortException, PasswordIsBlankException;
 	User setNewTokenForUser(String email) throws NonExistentEmailException;
-	
+
 	User getUserByConfirmationToken(String confirmationToken);
+	User getUserByConfirmationToken(ConfirmationToken confirmationToken);
 
 		
 

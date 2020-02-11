@@ -1,0 +1,31 @@
+header div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+header div a {
+  text-decoration: none;
+  color: white;
+}
+
+header div a:hover {
+  color: #222020;
+}
+
+header div h1 {
+  margin-left: 5vh;
+}
+
+header div h2 {
+  margin-right: 5vh;
+}
+
+header div h2 a {
+  margin-left: 20px;
+  text-transform: capitalize;
+}
+/*# sourceMappingURL=header.css.map */

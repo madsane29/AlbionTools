@@ -71,7 +71,9 @@ public class UserServiceImpl implements UserService {
 		ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
 		if (token != null) {
-			User user = userRepository.findByEmail(token.getUser().getEmail());
+			//User user = userRepository.findByEmail(token.getUser().getEmail());
+			User user = getUserByConfirmationToken(token);
+			System.out.println(user.toString());
 			user.setMatchingPassword(user.getPassword());
 			user.setIsEnabled(true);
 			user.setConfirmationToken(null);
@@ -113,7 +115,7 @@ public class UserServiceImpl implements UserService {
 			throws PasswordsNotMatchException, EmptyTokenFieldException, PasswordIsTooShortException, PasswordIsBlankException {
 		User user;
 		if (!confirmationToken.equals("")) {
-			user = confirmationTokenRepository.findByConfirmationToken(confirmationToken).getUser();
+			user = getUserByConfirmationToken(confirmationToken);
 		} else {
 			throw new EmptyTokenFieldException("Token is blank!");
 		}
@@ -146,4 +148,8 @@ public class UserServiceImpl implements UserService {
 		return confirmationTokenRepository.findByConfirmationToken(confirmationToken).getUser();
 	}
 
+	@Override
+	public User getUserByConfirmationToken(ConfirmationToken confirmationToken) {
+		return confirmationTokenRepository.findByConfirmationToken(confirmationToken.getConfirmationToken()).getUser();
+	}
 }

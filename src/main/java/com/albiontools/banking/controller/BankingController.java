@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/banking")
 public class BankingController {
+	
+	private static final String bankingHTMLFilesFolder = "banking/";
 
 	@GetMapping("")
 	public String getBankingPage() {
-		return "banking";
+		return bankingHTMLFilesFolder + "banking";
 	}
 }

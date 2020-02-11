@@ -9,7 +9,6 @@
 			<a th:href="@{/user/login}" th:text=#{login} sec:authorize="!isAuthenticated()">Login</a> 
 			<a href="#" th:text="${#authentication.name}" sec:authorize="isAuthenticated()">Username</a>		
 			<a th:href="@{/user/logout}" th:text=#{logout} sec:authorize="isAuthenticated()">Logout</a>
-
 		</h2>
 	</div>
 	<hr>

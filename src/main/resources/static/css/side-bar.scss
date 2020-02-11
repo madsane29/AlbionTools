@@ -1,0 +1,39 @@
+@import "variables";
+
+.side-bar {
+    flex: 1;
+    a {
+        position: absolute;
+        left: -200px;
+        transition: 0.4s;
+        padding: 15px;
+        width: 210px;
+        text-decoration: none;
+        font-size: 20px;
+        color: $textColor;
+        border-radius: 0 5px 5px 0;
+        background-color: $sideBarLinksBackgroundColor;
+        flex: 1;
+
+        &:hover {
+            left: 0px;
+            width: 110px;
+        }
+    }
+
+    .home {
+        top: sideBarsDistances(1.7) * 1px;
+    }
+    
+    .trading {
+        top: sideBarsDistances(2.7) * 1px;
+    }
+    
+    .banking {
+        top: sideBarsDistances(3.7) * 1px;
+    }
+
+    .forum {
+        top: sideBarsDistances(4.7) * 1px;
+    }
+}

@@ -1,0 +1,35 @@
+@import "variables";
+
+.contacts {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 10vh;
+    font-size: 1.5em;
+    
+
+    a {
+        color: $textColor;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .discord {
+        flex: 1;
+    }
+
+    .suggestion {
+        flex: 1;
+    }
+
+    .email {
+        flex: 1;
+    }
+}
+
+.main-text{
+    margin-left: 10vh;
+    margin-right: 10vh;
+    text-align: center;
+    font-size: 1.2rem;
+}

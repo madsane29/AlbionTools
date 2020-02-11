@@ -1,0 +1,21 @@
+@import "variables";
+
+header {
+    div {
+        display: flex;
+        justify-content: space-between;
+        @include linksTextDecorationAndColor();
+
+       h1 {
+           margin-left: 5vh; 
+       }
+
+       h2 {
+           margin-right: 5vh;
+           a {
+              margin-left: 20px;
+              text-transform: capitalize;
+           }
+        }
+    }
+}

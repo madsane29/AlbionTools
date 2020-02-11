@@ -21,7 +21,7 @@ public class GeneralController {
 	
 	@GetMapping(value = {"/"})
 	public String getHome(HttpServletRequest request) {
-		logger.loggerInfoIsCalled(request);
+		logger.loggerInfoWithHttpServletRequestParam(request);
 		return "index";
 	}
 }

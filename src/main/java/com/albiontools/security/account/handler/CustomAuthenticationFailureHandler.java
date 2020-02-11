@@ -23,7 +23,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
-		customLogger.loggerWarn(request, exception);
+		customLogger.loggerWarnWithHttpServletRequestAndExceptionParam(request, exception);
 		if (exception instanceof BadCredentialsException) response.sendRedirect("/user/bad-credentials");
 		else if (exception instanceof DisabledException) response.sendRedirect("/user/disabled-account");
 

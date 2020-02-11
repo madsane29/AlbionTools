@@ -18,122 +18,27 @@ body hr {
   border-width: 1px;
 }
 
-header div {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-header div a {
-  text-decoration: none;
-  color: white;
-}
-
-header div a:hover {
-  color: #222020;
-}
-
-header div h1 {
-  margin-left: 5vh;
-}
-
-header div h2 {
-  margin-right: 5vh;
-}
-
-header div h2 a {
-  margin-left: 20px;
-  text-transform: capitalize;
-}
-
-.main-text {
-  margin-left: 10vh;
-  margin-right: 10vh;
+.code-validation {
   text-align: center;
-  font-size: 1.2rem;
+  margin-top: 100px;
+  font-size: 2.5rem;
 }
 
-.side-bar {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.side-bar a {
-  position: absolute;
-  left: -200px;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  padding: 15px;
-  width: 210px;
+.code-validation a {
   text-decoration: none;
-  font-size: 20px;
   color: white;
-  border-radius: 0 5px 5px 0;
+  font-size: 1.7rem;
   background-color: #3a3939;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.side-bar a:hover {
-  left: 0px;
-  width: 110px;
-}
-
-.side-bar .home {
-  top: 102px;
-}
-
-.side-bar .trading {
-  top: 162px;
-}
-
-.side-bar .banking {
-  top: 222px;
-}
-
-.side-bar .forum {
-  top: 282px;
-}
-
-.contacts {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  border: 0px;
+  border-radius: 40px;
+  outline: none;
   text-align: center;
-  margin-top: 10vh;
-  font-size: 1.5em;
-}
-
-.contacts a {
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.contacts .discord {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.contacts .suggestion {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.contacts .email {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .form {
@@ -244,26 +149,104 @@ header div h2 a {
   font-size: 1em;
 }
 
-.code-validation {
-  text-align: center;
-  margin-top: 100px;
-  font-size: 2.5rem;
+.form .trading-input-fields-table {
+  background-color: transparent;
+  font-size: 1.5rem;
 }
 
-.code-validation a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.7rem;
-  background-color: #3a3939;
-  border: 0px;
-  border-radius: 40px;
-  outline: none;
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 10px;
-  padding-left: 10px;
+.form .trading-input-fields-table input {
+  font-size: 1rem;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  width: 5vw;
+  min-width: 0px;
+}
+
+.form .trading-input-fields-table input[type=number]::-webkit-inner-spin-button,
+.form .trading-input-fields-table input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form .trading-input-fields-table .get-button {
+  width: 15vw;
+}
+
+.form .trading-input-fields-table .cntr {
+  margin: auto;
+}
+
+.form .trading-input-fields-table .btn-radio {
+  cursor: pointer;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+}
+
+.form .trading-input-fields-table .btn-radio:not(:first-child) {
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 480px) {
+  .form .trading-input-fields-table .btn-radio {
+    display: block;
+    float: none;
+  }
+  .form .trading-input-fields-table .btn-radio:not(:first-child) {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+}
+
+.form .trading-input-fields-table .btn-radio svg {
+  fill: none;
+  vertical-align: middle;
+}
+
+.form .trading-input-fields-table .btn-radio svg circle {
+  stroke-width: 2;
+  stroke: #C8CCD4;
+}
+
+.form .trading-input-fields-table .btn-radio svg path {
+  stroke: #3a3939;
+}
+
+.form .trading-input-fields-table .btn-radio svg path.inner {
+  stroke-width: 6;
+  stroke-dasharray: 19;
+  stroke-dashoffset: 19;
+}
+
+.form .trading-input-fields-table .btn-radio svg path.outer {
+  stroke-width: 2;
+  stroke-dasharray: 57;
+  stroke-dashoffset: 57;
+}
+
+.form .trading-input-fields-table .btn-radio input {
+  display: none;
+}
+
+.form .trading-input-fields-table .btn-radio input:checked + svg path {
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+.form .trading-input-fields-table .btn-radio input:checked + svg path.inner {
+  stroke-dashoffset: 38;
+  -webkit-transition-delay: .3s;
+          transition-delay: .3s;
+}
+
+.form .trading-input-fields-table .btn-radio input:checked + svg path.outer {
+  stroke-dashoffset: 0;
+}
+
+.form .trading-input-fields-table .btn-radio span {
+  display: inline-block;
+  vertical-align: middle;
 }
 /*# sourceMappingURL=style.css.map */

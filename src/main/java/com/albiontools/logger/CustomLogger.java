@@ -18,25 +18,32 @@ public class CustomLogger {
 		logger = LoggerFactory.getLogger(clss);
 	}
 	
-	public void loggerInfoIsCalled(HttpServletRequest request) {
-		logger.info("\"" + request.getRequestURI() + "\" is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
+	public void loggerInfoWithHttpServletRequestParam(HttpServletRequest request) {
+		logger.info(getCallersData(request));
 	}
 	
-	public void loggerInfoWithMessage(HttpServletRequest request, String message) {
-		logger.info("\"" + request.getRequestURI() + "\" is called by: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ") --> Message: " + message);
+	public void loggerInfoWithHttpServletRequestAndMessageParam(HttpServletRequest request, String message) {
+		logger.info(getCallersData(request) + " --> Message: " + message);
 	}
 	
-	public void loggerWarn(HttpServletRequest request, Exception e) {
-		logger.info("\"" + request.getRequestURI() + "\" --> User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")" + " --> Exception: " + e.getMessage());
+	public void loggerWarnWithHttpServletRequestAndExceptionParam(HttpServletRequest request, Exception e) {
+		logger.info(getCallersData(request) + " --> Exception: " + e.getMessage());
 	}
 	
-	public void loggerError(List<ObjectError> errors, HttpServletRequest request) {
-		logger.error("\"" + request.getRequestURI() + "\" is called --> errors: ");
+	public void loggerErrorWithHttpServletRequestAndErrorsParam(HttpServletRequest request, List<ObjectError> errors) {
+		logger.error(getCallersData(request) + " --> Errors: ");
+		
 		for (ObjectError error : errors) {
 			logger.error(error.toString());
 		}
-		logger.error("User: " + SecurityContextHolder.getContext().getAuthentication().getPrincipal() + "(" + request.getRemoteAddr() + ")");
 	}	
 
+	private String getPrincipal() {
+		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+	}
+	
+	private String getCallersData(HttpServletRequest request) {
+		return "\"" + request.getRequestURI() + "\" is called by: " + getPrincipal() + "(" + request.getRemoteAddr() + ")";
+	}
 
 }

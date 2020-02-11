@@ -1,0 +1,43 @@
+.contacts {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  text-align: center;
+  margin-top: 10vh;
+  font-size: 1.5em;
+}
+
+.contacts a {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.contacts .discord {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.contacts .suggestion {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.contacts .email {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.main-text {
+  margin-left: 10vh;
+  margin-right: 10vh;
+  text-align: center;
+  font-size: 1.2rem;
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,44 @@
+.side-bar {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.side-bar a {
+  position: absolute;
+  left: -200px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  padding: 15px;
+  width: 210px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  background-color: #3a3939;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.side-bar a:hover {
+  left: 0px;
+  width: 110px;
+}
+
+.side-bar .home {
+  top: 102px;
+}
+
+.side-bar .trading {
+  top: 162px;
+}
+
+.side-bar .banking {
+  top: 222px;
+}
+
+.side-bar .forum {
+  top: 282px;
+}
+/*# sourceMappingURL=side-bar.css.map */
