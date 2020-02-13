@@ -28,4 +28,10 @@ header div h2 a {
   margin-left: 20px;
   text-transform: capitalize;
 }
+
+header hr {
+  margin-right: 5vh;
+  margin-left: 5vh;
+  border-width: 1px;
+}
 /*# sourceMappingURL=header.css.map */

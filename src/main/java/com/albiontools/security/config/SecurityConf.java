@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -17,6 +18,10 @@ import com.albiontools.security.account.handler.CustomAuthenticationFailureHandl
 @Configuration
 @EnableWebSecurity
 public class SecurityConf extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
 	@Bean
 	public PasswordEncoder passEncoder() {
 		return new BCryptPasswordEncoder();
@@ -45,8 +50,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.clearAuthentication(true)
 					.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
 					.logoutSuccessUrl("/user/logout-success").permitAll()
-					.and()
-					.rememberMe();
+				.and()
+					.rememberMe().userDetailsService(userDetailsService);
 
 			httpSec.authorizeRequests().antMatchers("/h2_console/**").permitAll();
 			httpSec.headers().frameOptions().disable();

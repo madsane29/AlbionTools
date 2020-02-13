@@ -69,12 +69,13 @@ public class AccountController {
 	@GetMapping({"", "/**"})
 	public String loginPage() {
 		if (SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) return "redirect:" + ROOT_OF_CLASS + PATH_LOGIN;
-		return "redirect:";
+		return "redirect:/";
 	}
 	
 	@GetMapping(PATH_LOGIN)
 	public String getLoginPage(HttpServletRequest request) {
 		customLogger.loggerInfoWithHttpServletRequestParam(request);
+		if (!SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) return "redirect:/";
 		return accountRelatedHTMLFilesFolder + "login";
 	}
 
@@ -239,7 +240,9 @@ public class AccountController {
 		customLogger.loggerInfoWithHttpServletRequestParam(request);
 
 		try {
+			customLogger.loggerInfoWithHttpServletRequestAndMessageParam(request, "Tries to change password for user with following token: " + parameters.get("token"));
 			userService.changePassword(parameters.get("token"), parameters.get("password"),	parameters.get("matchesPassword"));
+			customLogger.loggerInfoWithHttpServletRequestAndMessageParam(request, "Password has changed for user with the following token: " + parameters.get("token"));
 		} catch (EmptyTokenFieldException e) {
 			customLogger.loggerWarnWithHttpServletRequestAndExceptionParam(request, e);
 			return "redirect:" + ROOT_OF_CLASS + PATH_INVALID_CHANGE_PASSWORD_CODE;
@@ -259,7 +262,8 @@ public class AccountController {
 			model.addAttribute("token", parameters.get("token"));
 			return accountRelatedHTMLFilesFolder + "change-password";
 		}
-		customLogger.loggerInfoWithHttpServletRequestAndMessageParam(request, "Password has changed for user with the following token: " + parameters.get("token"));
+		
+		customLogger.loggerInfoWithHttpServletRequestAndMessageParam(request, "Add flash attribute \"userAccountPasswordChanged\" and redirect to" + ROOT_OF_CLASS + PATH_LOGIN);
 		redirectAttributes.addFlashAttribute("userAccountPasswordChanged", true);
 		return "redirect:" + ROOT_OF_CLASS + PATH_LOGIN;
 	}
