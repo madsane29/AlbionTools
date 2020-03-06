@@ -25,4 +25,11 @@
         <th:block th:replace="fragments/head-fragments :: bodyOfHead"></th:block>    
         <link rel="stylesheet" th:href="@{/css/table-style.css}"/>     
 </head>
+
+<head th:fragment="errorPageHead">
+        <th:block th:replace="fragments/head-fragments :: bodyOfHead"></th:block>    
+        <link rel="stylesheet" th:href="@{/css/error-page.css}"/>     
+</head>
+
+
 </html>

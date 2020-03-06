@@ -13,7 +13,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @SpringBootApplication
-public class AlbionToolsApplication/* implements CommandLineRunner */{
+public class AlbionToolsApplication /*implements CommandLineRunner*/ {
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -34,8 +34,8 @@ public class AlbionToolsApplication/* implements CommandLineRunner */{
 	public static void main(String[] args) {
 		SpringApplication.run(AlbionToolsApplication.class, args);	
 	}
-/*
-	@Override
+
+	/*@Override
 	public void run(String... args) throws Exception {
 		 String[] beans = applicationContext.getBeanDefinitionNames();
 		 Arrays.sort(beans);

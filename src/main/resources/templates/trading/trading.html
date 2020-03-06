@@ -9,68 +9,69 @@
         
             <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
             
-             <form th:action="@{/trading/get-data}" method="get" class="form">
+             <form th:action="@{/trading/get-data}" method="post" class="form">
                
                         <div class="trading-input-fields-table">
  
-                            <span>From</span>
-                            <span>To</span>
+                            <span class="from-span">From</span>
+                            <span class="to-span">To</span>
                                <br/>
-                                <select name="fromCity" size="6" multiple required>
-                                    <option selected>Bridgewatch</option>
-                                    <option>Caerleon</option>
-                                    <option>Fort Sterling</option>
-                                    <option>Lymhurst</option>
-                                    <option>Martlock</option>
-                                    <option>Thetford</option>
+                                <select name="fromCity" size="6" required multiple>
+                                    <option th:selected="${fromCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
+                                    <option th:selected="${fromCity.contains('Caerleon')}">Caerleon</option>
+                                    <option th:selected="${fromCity.contains('FortSterling')}" value="FortSterling">Fort Sterling</option>
+                                    <option th:selected="${fromCity.contains('Lymhurst')}">Lymhurst</option>
+                                    <option th:selected="${fromCity.contains('Martlock')}">Martlock</option>
+                                    <option th:selected="${fromCity.contains('Thetford')}">Thetford</option>
 
                                 </select>
-                                <select name="toCity" size="6" multiple required>
-                                    <option selected>Bridgewatch</option>
-                                    <option>Caerleon</option>
-                                    <option>Fort Sterling</option>
-                                    <option>Lymhurst</option>
-                                    <option>Martlock</option>
-                                    <option>Thetford</option>
+                                <select name="toCity" size="6" required multiple>
+                                    <option th:selected="${toCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
+                                    <option th:selected="${toCity.contains('Caerleon')}">Caerleon</option>
+                                    <option th:selected="${toCity.contains('FortSterling')}" value="FortSterling">Fort Sterling</option>
+                                    <option th:selected="${toCity.contains('Lymhurst')}">Lymhurst</option>
+                                    <option th:selected="${toCity.contains('Martlock')}">Martlock</option>
+                                    <option th:selected="${toCity.contains('Thetford')}">Thetford</option>
                                 </select>
                                 <br/>
                            <span>Minimum profit</span>
                            <span>Maximum profit</span>
                                  <br/>
-                                <input type="number" min="0" max="999999999" value="0" name="profitMinimum" maxlength="9" size="6"/>
-                                <input type="number" min="0" max="999999999" value="999999999" name="profitMaximum" maxlength="9" size="6"/>
+                                <input type="number" min="0" max="999999999" value="0" name="profitMinimum" th:value="${profitMinimum}" maxlength="9" size="6"/>
+                                <input type="number" min="0" max="999999999" value="999999999" name="profitMaximum" th:value="${profitMaximum}" maxlength="9" size="6"/>
                        
                                 <div class="cntr">
                                     <label for="rdo-1" class="btn-radio">
-                                      <input type="radio" id="rdo-1" name="auctionTax" checked>
+                                      <input type="radio" id="rdo-1" name="auctionTax" value="2" th:checked="${auctionTax==2}" />
                                       <svg width="20px" height="20px" viewBox="0 0 20 20">
-                                        <circle cx="10" cy="10" r="9"></circle>
+                                        <circle cx="10" cy="10" r="8"></circle>
                                         <path d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z" class="inner"></path>
-                                        <path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path>
-                                      </svg>
+                                        <!--<path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path>-->
+                                       </svg>
                                       <span>2% tax</span>
                                     </label>
                                     <label for="rdo-2" class="btn-radio">
-                                      <input type="radio" id="rdo-2" name="auctionTax">
+                                      <input type="radio" id="rdo-2" name="auctionTax" value="4" th:checked="${auctionTax==4}" />
                                       <svg width="20px" height="20px" viewBox="0 0 20 20">
-                                        <circle cx="10" cy="10" r="9"></circle>
+                                        <circle cx="10" cy="10" r="8"></circle>
                                         <path d="M10,7 C8.34314575,7 7,8.34314575 7,10 C7,11.6568542 8.34314575,13 10,13 C11.6568542,13 13,11.6568542 13,10 C13,8.34314575 11.6568542,7 10,7 Z" class="inner"></path>
-                                        <path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path>
-                                      </svg>
+                                        <!--<path d="M10,1 L10,1 L10,1 C14.9705627,1 19,5.02943725 19,10 L19,10 L19,10 C19,14.9705627 14.9705627,19 10,19 L10,19 L10,19 C5.02943725,19 1,14.9705627 1,10 L1,10 L1,10 C1,5.02943725 5.02943725,1 10,1 L10,1 Z" class="outer"></path> -->
+                                       </svg>
                                       <span>4% tax</span>
                                     </label>
+                                    </div>
                                 <br/>
                                
                         
                                 <input type="submit" class="get-button" value="Get the best deals!"/>
-                      
+                      </div>
                 </form>
                 
             <div class="main-text">
                 <div class="container-table100">
                     <div class="wrap-table100">
                         <div class="table100 ver2 m-b-110">
-                            <table class="tablee sortable" data-vertable="ver2">
+                            <table id="table" class="tablee sortable" data-vertable="ver2">
                                 <thead>
                                     <tr class="row100 head">
                                         <th class="column100 column1" data-column="column1" th:text="#{trading.table.itemName}"></th>
@@ -83,16 +84,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="row100">
-                                        <td class="column100 column1" data-column="column1">Hide</td>
-                                        <td class="column100 column2" data-column="column2">Martlock</td>
-                                        <td class="column100 column3" data-column="column3">123456</td>
-                                        <td class="column100 column4" data-column="column4">Caerleon</td>
-                                        <td class="column100 column5" data-column="column5">234567</td>
-                                        <td class="column100 column6" data-column="column6">111111</td>
-                                        <td class="column100 column7" data-column="column7" th:text="#{trading.table.delete}">Delete</td>
-                                    </tr>
-                                </tbody>
+                        <th:block th:each="trade : ${trades}">
+                            <tr class="row100">
+                                <td th:text="${trade.fromOffer.tradingItem.name}"></td>
+                                <td th:text="${trade.fromOffer.city}"></td>
+                                <td th:text="${trade.fromOffer.sellPriceMin}"></td>
+                                <td th:text="${trade.toOffer.city}"></td>
+                                <td th:text="${trade.toOffer.sellPriceMin}"></td>
+                                <td th:text="${@calculateProfitService.calculateProfit(trade.toOffer.sellPriceMin, trade.fromOffer.sellPriceMin)}"></td>
+                                <td>
+                                    <input class="btn-primary btn-narrow" type="button" value="Delete" onclick="deleteRow(this)" />
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
                             </table>
                         </div>
                     </div>

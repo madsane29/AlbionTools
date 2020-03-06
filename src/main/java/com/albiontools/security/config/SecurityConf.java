@@ -3,7 +3,9 @@ package com.albiontools.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,6 +34,16 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 		return new CustomAuthenticationFailureHandler();
 	}
 	
+	
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// TODO Auto-generated method stub
+		//super.configure(auth);
+		auth.userDetailsService(userDetailsService);
+		
+	}
+
 	@Override
 	protected void configure(HttpSecurity httpSec) {
 		try {
@@ -39,6 +51,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/trading").permitAll()//.authenticated()
+				.antMatchers("/banking").hasAnyRole("USER", "ADMIN")
 			.and()
 				.formLogin()
 					.failureHandler(customAuthenticationFailureHandler())
@@ -51,7 +64,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
 					.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
 					.logoutSuccessUrl("/user/logout-success").permitAll()
 				.and()
-					.rememberMe().userDetailsService(userDetailsService);
+					.rememberMe();//.userDetailsService(userDetailsService);
 
 			httpSec.authorizeRequests().antMatchers("/h2_console/**").permitAll();
 			httpSec.headers().frameOptions().disable();
