@@ -1,7 +1,11 @@
 package com.albiontools.security.account.service;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +18,9 @@ import com.albiontools.security.account.model.User;
 @Service
 public class EmailSenderServiceImpl implements EmailSenderService{
 	
+	@Autowired
+	private MessageSource messageSource;
+
 	private JavaMailSender javaMailSender;
 
 	@Autowired
@@ -25,24 +32,15 @@ public class EmailSenderServiceImpl implements EmailSenderService{
 	@Value("${emailSenderService.emailFrom}")
 	private String emailFrom;
 	
-	@Value("${emailSenderService.verificationEmail.subject}")
-	private String verificationEmailSubject;	
-	@Value("${emailSenderService.forgotPasswordEmail.subject}")
-	private String forgotPasswordEmailSubject;
-
-	@Value("${emailSenderService.verificationEmail.text}")
-	private String verificationEmailText;
-	@Value("${emailSenderService.forgotPasswordEmail.text}")
-	private String forgotPasswordEmailText;
-	
 	@Async
 	@Override
 	public void sendVerificationEmail(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject(verificationEmailSubject);
+        mailMessage.setSubject(messageSource.getMessage("emailSenderService.verificationEmail.subject", null, LocaleContextHolder.getLocale()));
         mailMessage.setFrom(emailFrom);
-        mailMessage.setText(verificationEmailText + user.getConfirmationToken().getConfirmationToken());
+        mailMessage.setText(messageSource.getMessage("emailSenderService.verificationEmail.text", null, LocaleContextHolder.getLocale()));
+        
         javaMailSender.send(mailMessage);
 	}
 	
@@ -51,12 +49,11 @@ public class EmailSenderServiceImpl implements EmailSenderService{
 	public void sendForgotPasswordEmail(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject(forgotPasswordEmailSubject);
+        mailMessage.setSubject(messageSource.getMessage("emailSenderService.forgotPasswordEmail.subject", null, LocaleContextHolder.getLocale()));
         mailMessage.setFrom(emailFrom);
-        mailMessage.setText(forgotPasswordEmailText + user.getConfirmationToken().getConfirmationToken());
+        mailMessage.setText(messageSource.getMessage("emailSenderService.forgotPasswordEmail.text", null, LocaleContextHolder.getLocale()));
 
         javaMailSender.send(mailMessage);
 	}
-	
 	
 }
