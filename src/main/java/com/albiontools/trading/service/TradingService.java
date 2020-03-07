@@ -1,5 +1,8 @@
 package com.albiontools.trading.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +28,13 @@ public class TradingService {
 
 	@Autowired
 	private JSONFromURL JSONHandler;
-	
+
 	public List<Trade> getTrades(String fromCity, String toCity, int profitMinimum, int profitMaximum, int auctionTax) {
 		List<Trade> trades = new ArrayList<>();
-		List<Item> tradingItems = getItemNamesAndIDsFromTXT();
-		
-		ArrayList<Offer> offers = getOffers(fromCity, toCity, auctionTax, tradingItems);
 
-		fromCity = splitCityName(fromCity);
-		toCity = splitCityName(toCity);
+		List<Item> tradingItems = getItemNamesAndIDsFromTXT();
+
+		ArrayList<Offer> offers = getOffers(fromCity, toCity, auctionTax, tradingItems);
 
 		final String fromCityFinal = fromCity;
 		final String toCityFinal = toCity;
@@ -44,28 +46,32 @@ public class TradingService {
 
 		for (Offer fromOffer : fromOffers) {
 			String fromOfferItemID = fromOffer.getTradingItem().getItemSpecificID();
-			List<Offer> toOfferList = toOffers.stream().filter(e -> e.getTradingItem().getItemSpecificID().equals(fromOfferItemID))
+			List<Offer> toOfferList = toOffers.stream()
+					.filter(e -> e.getTradingItem().getItemSpecificID().equals(fromOfferItemID))
 					.collect(Collectors.toList());
 
 			for (Offer toOffer : toOfferList) {
-				if ((toOffer.getSellPriceMin() - fromOffer.getSellPriceMin() > profitMinimum)
-						&& (toOffer.getSellPriceMin() - fromOffer.getSellPriceMin() <= profitMaximum)) {
+				if (isItInRange(toOffer.getSellPriceMin() - fromOffer.getSellPriceMin(), profitMinimum,
+						profitMaximum)) {
 					trades.add(new Trade(fromOffer, toOffer));
 				}
 			}
 		}
 
 		Collections.sort(trades);
+
 		return trades;
 	}
 
-	public ArrayList<Offer> getOffers(String fromCity, String toCity, int auctionTax, List<Item> tradingItems) {
+
+
+	private ArrayList<Offer> getOffers(String fromCity, String toCity, int auctionTax, List<Item> tradingItems) {
 		ArrayList<Offer> offers = new ArrayList<>();
 
 		String firstPartOfUrl = "https://www.albion-online-data.com/api/v2/stats/prices/";
 		String secondPartOfUrl = "";
 		String thirdPartOfUrl = "?locations=";
-		String fourthPartOfUrl = fromCity + "," + toCity;
+		String fourthPartOfUrl = removeWhiteSpacesInString(fromCity) + "," + removeWhiteSpacesInString(toCity);
 		String fifthPartOfUrl = "&qualities=0";
 
 		int n = 1;
@@ -78,8 +84,8 @@ public class TradingService {
 				String url = firstPartOfUrl + secondPartOfUrl + thirdPartOfUrl + fourthPartOfUrl + fifthPartOfUrl;
 
 				JSONArray jsonarray = JSONHandler.getJSONArrayOutOfURL(url);
-				for (int j = 0; j < jsonarray.length(); j++) {
-					JSONObject obj = jsonarray.getJSONObject(j);
+				for (int i = 0; i < jsonarray.length(); i++) {
+					JSONObject obj = jsonarray.getJSONObject(i);
 					String itemID = obj.getString("item_id");
 
 					Item tempItem = tradingItems.stream().filter(e -> itemID.equals(e.getItemSpecificID())).findAny()
@@ -87,14 +93,14 @@ public class TradingService {
 					if (tempItem != null && obj.getInt("sell_price_min") > 0) {
 						String city = obj.getString("city");
 						int sellPriceMin = obj.getInt("sell_price_min");
-						if (toCity.contains(city))
+						if (toCity.contains(city)) { 
 							sellPriceMin = (int) (sellPriceMin * (100 - auctionTax) / 100);
+						}
 						String sellPriceMinDate = obj.getString("sell_price_min_date");
 						int buyPriceMax = obj.getInt("buy_price_max");
 						String buyPriceMaxDate = obj.getString("buy_price_max_date");
 
-						offers.add(new Offer(tempItem, city, sellPriceMin, sellPriceMinDate, buyPriceMax,
-								buyPriceMaxDate));
+						offers.add(new Offer(tempItem, city, sellPriceMin, sellPriceMinDate, buyPriceMax, buyPriceMaxDate));
 					}
 				}
 				secondPartOfUrl = "";
@@ -102,36 +108,33 @@ public class TradingService {
 		}
 		return offers;
 	}
-	
-	private String splitCityName(String city) {
-		if (city.contains("FortSterling"))
-			city = city.substring(0, city.indexOf("Sterling")) + " " + city.substring(city.indexOf("Sterling"));
-		return city;
-	}
-	
-	public List<Item> getItemNamesAndIDsFromTXT() {
-		InputStream is = AlbionToolsApplication.class.getClassLoader().getResourceAsStream("txt/resourcesID");
-		//InputStream is = TransportFromCityToCityApplication.class.getClassLoader().getResourceAsStream("txt/allitemsID");
-		
-		//@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(is).useDelimiter("\\A");
+
+	private List<Item> getItemNamesAndIDsFromTXT() {
+		List<Item> tradingItems = new ArrayList<>();
+		InputStream inputStream = AlbionToolsApplication.class.getClassLoader().getResourceAsStream("txt/resourcesID");
+
+		// InputStream is =
+		// TransportFromCityToCityApplication.class.getClassLoader().getResourceAsStream("txt/allitemsID");
+
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(inputStream).useDelimiter("\\A");
 		String content = scanner.next();
 
-		List<Item> tradingItems = new ArrayList<>();
 		List<String> lines = Arrays.asList(content.split("\\n"));
 		for (String line : lines) {
 
 			if (isItValidString(line, ':')) {
 				String uniqueName = line.substring(line.indexOf(':') + 1, line.lastIndexOf(':')).trim();
 				String tier = uniqueName.substring(0, 2);
-				
+
 				String itemName = line.substring(line.lastIndexOf(':') + 2).trim();
 				
-
 				int enchantLevel = 0;
 				if (uniqueName.contains("@")) {
 					itemName = itemName + uniqueName.substring(uniqueName.indexOf('@'));
-					enchantLevel = Integer.parseInt(itemName.substring(itemName.indexOf('@')+1));
+					enchantLevel = Integer.parseInt(itemName.substring(itemName.indexOf('@') + 1));
+				} else {
+					itemName = itemName + "@" + enchantLevel;
 				}
 				tradingItems.add(new Item(uniqueName, itemName, tier, enchantLevel));
 			}
@@ -139,16 +142,26 @@ public class TradingService {
 
 		return tradingItems;
 	}
-	
+
 	private boolean isItValidString(String line, char ch) {
 		int count = 0;
-
+		
 		for (int i = 0; i < line.length(); i++) {
 			if (line.charAt(i) == ch)
 				count++;
-			if (count == 2) return true;
+			
+			if (count == 2)
+				return true;
+			
 		}
-
 		return false;
+	}
+	
+	private boolean isItInRange(int price, int min, int max) {
+		return ((price >= min) && (price <= max));
+	}
+
+	private String removeWhiteSpacesInString(String str) {
+		return str.replaceAll(" ", "");
 	}
 }

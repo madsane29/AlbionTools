@@ -39,11 +39,13 @@ public class CustomLogger {
 	}	
 
 	private String getPrincipal() {
-		return SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-	}
-	
-	private String getCallersData(HttpServletRequest request) {
-		return "\"" + request.getRequestURI() + "\" is called by: " + getPrincipal() + "(" + request.getRemoteAddr() + ")";
+		String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		if (principal != null) return principal; 
+		return "";
 	}
 
+	private String getCallersData(HttpServletRequest request) {
+		return "\"" + request.getRequestURI() + "\" is called by: " + getPrincipal() + "(" + request.getRemoteAddr() + ")";
+	}	
+	
 }

@@ -96,6 +96,7 @@ public class AccountController {
 	
 	@GetMapping(PATH_BAD_CREDENTIALS)
 	public String getBadCredentialsLoginPage(Model model, HttpServletRequest request) {
+		//System.out.println(request.getUserPrincipal().getName());
 		customLogger.loggerInfoWithHttpServletRequestParam(request);
 		model.addAttribute("badCredentials", true);
 		return accountRelatedHTMLFilesFolder + "login";

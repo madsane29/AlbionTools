@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.albiontools.security.account.handler.CustomAuthenticationFailureHandler;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 
 
 @Configuration

@@ -56,6 +56,7 @@ public class TradingController {
 		model.addAttribute("fromCity", fromCity);
 		model.addAttribute("trades", tradingService.getTrades(fromCity, toCity, profitMinimum, profitMaximum, auctionTax));
 		
+		
 		return tradingHTMLFilesFolder + ROOT_OF_CLASS;
 	}
 }

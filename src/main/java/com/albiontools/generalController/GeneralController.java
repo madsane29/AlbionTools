@@ -25,6 +25,7 @@ public class GeneralController {
 	
 	@GetMapping(value = {"/"})
 	public String getHome(HttpServletRequest request) {
+		//System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		logger.loggerInfoWithHttpServletRequestParam(request);
 		return "index";
 	}
