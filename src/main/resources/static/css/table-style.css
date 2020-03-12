@@ -48,6 +48,10 @@ th, td {
   padding-left: 42px;
 }
 
+.row100.head {
+  cursor: pointer;
+}
+
 .row100.head th {
   padding-top: 24px;
   padding-bottom: 20px;

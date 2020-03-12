@@ -1,8 +1,5 @@
 package com.albiontools.trading.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import org.hibernate.validator.internal.util.privilegedactions.GetResource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.albiontools.AlbionToolsApplication;
 import com.albiontools.jsonhandler.JSONFromURL;
+import com.albiontools.trading.model.AjaxTestModel;
 import com.albiontools.trading.model.Item;
 import com.albiontools.trading.model.Offer;
 import com.albiontools.trading.model.Trade;
@@ -29,6 +26,30 @@ public class TradingService {
 	@Autowired
 	private JSONFromURL JSONHandler;
 
+	public List<AjaxTestModel> getTradesAsAjaxTestModelList(String jsonObj) {
+		
+		JSONObject jsonObject = new JSONObject(jsonObj);
+		String fromCity = makeCityArrayIntoAString(jsonObject.getJSONArray("fromCity"));
+		String toCity = makeCityArrayIntoAString(jsonObject.getJSONArray("toCity"));
+		int profitMinimum = jsonObject.getInt("profitMinimum");
+		int profitMaximum = jsonObject.getInt("profitMaximum");
+		int auctionTax = jsonObject.getInt("auctionTax");
+		
+		
+		List<Trade> list = getTrades(fromCity, toCity, profitMinimum, profitMaximum, auctionTax);
+		
+		List<AjaxTestModel> ajaxList = 
+				list.stream().map(trade -> new AjaxTestModel(
+									trade.getFromOffer().getTradingItem().getName(), 
+									trade.getFromOffer().getCity(), 
+									trade.getFromOffer().getSellPriceMin(), 
+									trade.getToOffer().getCity(), 
+									trade.getToOffer().getSellPriceMin()))
+							.collect(Collectors.toList());
+
+		return ajaxList;
+	}
+	
 	public List<Trade> getTrades(String fromCity, String toCity, int profitMinimum, int profitMaximum, int auctionTax) {
 		List<Trade> trades = new ArrayList<>();
 
@@ -49,10 +70,10 @@ public class TradingService {
 			List<Offer> toOfferList = toOffers.stream()
 					.filter(e -> e.getTradingItem().getItemSpecificID().equals(fromOfferItemID))
 					.collect(Collectors.toList());
+			
 
 			for (Offer toOffer : toOfferList) {
-				if (isItInRange(toOffer.getSellPriceMin() - fromOffer.getSellPriceMin(), profitMinimum,
-						profitMaximum)) {
+				if (isItInRange(toOffer.getSellPriceMin() - fromOffer.getSellPriceMin(), profitMinimum,	profitMaximum)) {
 					trades.add(new Trade(fromOffer, toOffer));
 				}
 			}
@@ -74,17 +95,20 @@ public class TradingService {
 		String fourthPartOfUrl = removeWhiteSpacesInString(fromCity) + "," + removeWhiteSpacesInString(toCity);
 		String fifthPartOfUrl = "&qualities=0";
 
-		int n = 1;
+		int sizeOfUrl = firstPartOfUrl.length() + thirdPartOfUrl.length() + fourthPartOfUrl.length() + fifthPartOfUrl.length();
+		
 		for (Item item : tradingItems) {
 			secondPartOfUrl += item.getItemSpecificID() + ",";
-			n++;
-
-			if (n % 19 == 0 || (item.equals(tradingItems.get(tradingItems.size() - 1)))) {
-				secondPartOfUrl = secondPartOfUrl.substring(0, secondPartOfUrl.length() - 1);
+			int sizeOfFinalUrl = sizeOfUrl + secondPartOfUrl.length();
+			
+			if (sizeOfFinalUrl > 1900 || (item.equals(tradingItems.get(tradingItems.size() - 1)))) {
+				
+				secondPartOfUrl = removeLastCharacter(secondPartOfUrl);
 				String url = firstPartOfUrl + secondPartOfUrl + thirdPartOfUrl + fourthPartOfUrl + fifthPartOfUrl;
 
 				JSONArray jsonarray = JSONHandler.getJSONArrayOutOfURL(url);
 				for (int i = 0; i < jsonarray.length(); i++) {
+					
 					JSONObject obj = jsonarray.getJSONObject(i);
 					String itemID = obj.getString("item_id");
 
@@ -101,11 +125,13 @@ public class TradingService {
 						String buyPriceMaxDate = obj.getString("buy_price_max_date");
 
 						offers.add(new Offer(tempItem, city, sellPriceMin, sellPriceMinDate, buyPriceMax, buyPriceMaxDate));
+				
 					}
 				}
 				secondPartOfUrl = "";
 			}
 		}
+		
 		return offers;
 	}
 
@@ -163,5 +189,19 @@ public class TradingService {
 
 	private String removeWhiteSpacesInString(String str) {
 		return str.replaceAll(" ", "");
+	}
+	
+	private String removeLastCharacter(String str) {
+		return str.substring(0, str.length() - 1);
+	}
+	
+	private String makeCityArrayIntoAString(JSONArray arr) {
+		String str = "";
+		for (int i = 0; i < arr.length(); i++) {
+			str += arr.getString(i) + ",";
+		}
+		str = removeLastCharacter(str);
+		
+		return str;
 	}
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"> 
 
-<div th:replace="fragments/head-fragments :: tradingPageTempHead">...</div>
+<div th:replace="fragments/head-fragments :: tradingPageHead">...</div>
 
     <body>
         <div th:replace="fragments/header-fragment :: header">...</div>   
@@ -9,14 +9,14 @@
         
             <div th:replace="fragments/side-bar-fragment :: sideBar">...</div>  
             
-             <form method="post" class="form" id="inputForm">
+             <form th:action="@{/trading/get-data}" method="post" class="form">
                
                         <div class="trading-input-fields-table">
  
                             <span class="from-span">From</span>
                             <span class="to-span">To</span>
                                <br/>
-                                <select id="fromCity" name="fromCity" size="6" required multiple>
+                                <select name="fromCity" size="6" required multiple>
                                     <option th:selected="${fromCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
                                     <option th:selected="${fromCity.contains('Caerleon')}">Caerleon</option>
                                     <option th:selected="${fromCity.contains('Fort Sterling')}">Fort Sterling</option>
@@ -25,7 +25,7 @@
                                     <option th:selected="${fromCity.contains('Thetford')}">Thetford</option>
 
                                 </select>
-                                <select id="toCity" name="toCity" size="6" required multiple>
+                                <select name="toCity" size="6" required multiple>
                                     <option th:selected="${toCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
                                     <option th:selected="${toCity.contains('Caerleon')}">Caerleon</option>
                                     <option th:selected="${toCity.contains('Fort Sterling')}">Fort Sterling</option>
@@ -37,8 +37,8 @@
                            <span>Minimum profit</span>
                            <span>Maximum profit</span>
                                  <br/>
-                                <input id="profitMinimum" type="number" min="0" max="999999999" value="0" name="profitMinimum" th:value="${profitMinimum}" maxlength="9" size="6"/>
-                                <input id="profitMaximum" type="number" min="0" max="999999999" value="999999999" name="profitMaximum" th:value="${profitMaximum}" maxlength="9" size="6"/>
+                                <input type="number" min="0" max="999999999" value="0" name="profitMinimum" th:value="${profitMinimum}" maxlength="9" size="6"/>
+                                <input type="number" min="0" max="999999999" value="999999999" name="profitMaximum" th:value="${profitMaximum}" maxlength="9" size="6"/>
                        
                                 <div class="cntr">
                                     <label for="rdo-1" class="btn-radio">
@@ -63,7 +63,7 @@
                              
                                
                         
-                                <input id="submitButton" type="submit" class="get-button" value="Get the best deals!"/>
+                                <input type="submit" class="get-button" value="Get the best deals!"/>
                       </div>
                 </form>
                 
@@ -80,13 +80,24 @@
                                         <th class="column100 column4" data-column="column4" th:text="#{trading.table.to}">To</th>
                                         <th class="column100 column5" data-column="column5" th:text="#{trading.table.price}"></th>
                                         <th class="column100 column6" data-column="column6" th:text="#{trading.table.profit}">Profit</th>
+                                        <th class="column100 column7" data-column="column7" th:text="#{trading.table.delete}"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	
-                       				
-                       
-                    			</tbody>
+                        <th:block th:each="trade : ${trades}">
+                            <tr class="row100">
+                                <td th:text="${trade.fromOffer.tradingItem.name}"></td>
+                                <td th:text="${trade.fromOffer.city}"></td>
+                                <td th:text="${trade.fromOffer.sellPriceMin}"></td>
+                                <td th:text="${trade.toOffer.city}"></td>
+                                <td th:text="${trade.toOffer.sellPriceMin}"></td>
+                                <td th:text="${@calculateProfitService.calculateProfit(trade.toOffer.sellPriceMin, trade.fromOffer.sellPriceMin)}"></td>
+                                <td>
+                                    <input class="btn-primary btn-narrow" type="button" value="Delete" onclick="deleteRow(this)" />
+                                </td>
+                            </tr>
+                        </th:block>
+                    </tbody>
                             </table>
                         </div>
                     </div>

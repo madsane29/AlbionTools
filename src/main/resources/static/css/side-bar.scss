@@ -3,7 +3,8 @@
 .side-bar {
     flex: 1;
     a {
-        position: absolute;
+        //position: absolute;
+        position: fixed;
         left: -200px;
         transition: 0.4s;
         padding: 15px;

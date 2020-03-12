@@ -5,7 +5,7 @@
 }
 
 .side-bar a {
-  position: absolute;
+  position: fixed;
   left: -200px;
   -webkit-transition: 0.4s;
   transition: 0.4s;

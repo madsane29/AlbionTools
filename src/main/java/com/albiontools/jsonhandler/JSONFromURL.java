@@ -66,7 +66,6 @@ public class JSONFromURL {
 		}
 
 		return json;
-
 	}
 
 }

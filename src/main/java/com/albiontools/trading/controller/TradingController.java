@@ -40,8 +40,8 @@ public class TradingController {
 		return "redirect:/" + ROOT_OF_CLASS;
 	}
 	
-	@PostMapping("/get-data")
-	public String returnDataBackToTable(/*@RequestParam Map<String,String> allRequestParams, */
+	/*@PostMapping("/get-data")
+	public String returnDataBackToTable(//@RequestParam Map<String,String> allRequestParams, 
 			Model model, HttpServletRequest request, 
 			@RequestParam (value="toCity") String toCity, 
 			@RequestParam (value="fromCity") String fromCity,
@@ -58,5 +58,5 @@ public class TradingController {
 		
 		
 		return tradingHTMLFilesFolder + ROOT_OF_CLASS;
-	}
+	}*/
 }
