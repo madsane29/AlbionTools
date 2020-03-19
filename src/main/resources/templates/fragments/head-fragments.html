@@ -31,13 +31,15 @@
         <link rel="stylesheet" th:href="@{/css/error-page.css}"/>     
 </head>
 
-<head th:fragment="tradingPageTempHead">
+<head th:fragment="tradingPageAjaxHead">
         <th:block th:replace="fragments/head-fragments :: bodyOfHead"></th:block>    
-        <link rel="stylesheet" th:href="@{/css/table-style.css}"/>   
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-	<script src="/js/datatable.js"></script>  
+        <link rel="stylesheet" th:href="@{/css/table-style.css}"/>  
+ 
+</head>
+
+<head th:fragment="suggestionsPageHead">
+        <th:block th:replace="fragments/head-fragments :: bodyOfHead"></th:block> 
+        <link rel="stylesheet" th:href="@{/css/index.css}"/>
 </head>
 
 </html>

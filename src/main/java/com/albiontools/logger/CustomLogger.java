@@ -9,11 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.ObjectError;
 
-
 public class CustomLogger {
 	
 	private Logger logger;
-	
 	public CustomLogger(Class clss) {
 		logger = LoggerFactory.getLogger(clss);
 	}

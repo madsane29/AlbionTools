@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/head-fragments :: errorPageHead"></div>
+
+<body>
+	<div th:replace="fragments/header-fragment :: header"></div>
+	<div th:replace="fragments/side-bar-fragment :: sideBar"></div>
+
+	<div class="error-page">		
+		<h1>405 - Method not allowed!</h1>
+	</div>
+
+</body>
+</html>

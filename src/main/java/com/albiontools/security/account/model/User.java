@@ -1,9 +1,12 @@
 package com.albiontools.security.account.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,13 +14,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Proxy;
+
 import com.albiontools.security.account.validator.PasswordMatches;
+import com.albiontools.suggestions.model.Suggestion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 
 @Entity(name = "users")
@@ -25,6 +35,7 @@ import com.albiontools.security.account.validator.PasswordMatches;
 public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
+	//@Column(name="user_id")
 	private Long id;
 
 	@NotBlank(message = "{registration.usernameNotBlank}")
@@ -41,11 +52,18 @@ public class User {
 	@NotBlank(message = "{registration.emailNotBlank}")
 	@Email(message = "{registration.emailValidFormat}")
 	private String email;
+	
+	
 
-	//@OneToMany(mappedBy = "user")
-	//private List<Chest> chests;
+	@OneToMany(mappedBy = "user")
+	private List<Suggestion> suggestionsList = new ArrayList<>();
+	
+	
+
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//@JsonIgnore
+	@JsonProperty(access = Access.READ_ONLY)
 	private Set<Role> roles = new HashSet<>();
 
 	private Boolean isAccountNonExpired = true;
@@ -57,6 +75,12 @@ public class User {
 	@JoinColumn(name = "token_id")
 	private ConfirmationToken confirmationToken;
 	
+	
+
+	public User() {
+		super();
+	}
+
 
 	public void addRoles(String roleName) {
 		if (this.roles == null || this.roles.isEmpty()) {
@@ -64,6 +88,8 @@ public class User {
 		}
 		this.roles.add(new Role(roleName));
 	}
+	
+
 
 	public Boolean getIsAccountNonExpired() {
 		return isAccountNonExpired;
@@ -151,17 +177,6 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
-	}
-
-	
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", matchingPassword="
-				+ matchingPassword + ", email=" + email + ", roles=" + roles + ", isAccountNonExpired="
-				+ isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked + ", isCredentialsNonExpired="
-				+ isCredentialsNonExpired + ", isEnabled=" + isEnabled + ", confirmationToken=" + confirmationToken
-				+ "]";
 	}
 
 	public ConfirmationToken getConfirmationToken() {

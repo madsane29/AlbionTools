@@ -40,20 +40,12 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- 
+		
 		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+		    <groupId>com.github.ulisesbocchio</groupId>
+		    <artifactId>jasypt-spring-boot-starter</artifactId>
+		    <version>2.1.0</version>
 		</dependency>
-		 -->
-<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt -->
-<!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
-<dependency>
-    <groupId>com.github.ulisesbocchio</groupId>
-    <artifactId>jasypt-spring-boot-starter</artifactId>
-    <version>2.1.0</version>
-</dependency>
 
 
 		 <dependency>
@@ -113,7 +105,7 @@
 		    <artifactId>json</artifactId>
 		    <version>20190722</version>
 		</dependency>
-				
+
 	</dependencies>
 
 

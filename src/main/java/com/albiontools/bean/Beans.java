@@ -37,4 +37,6 @@ public class Beans {
 	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
 		return new CustomAuthenticationFailureHandler();
 	}
+	
+	
 }

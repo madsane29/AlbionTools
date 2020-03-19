@@ -11,8 +11,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConf extends WebSecurityConfigurerAdapter {

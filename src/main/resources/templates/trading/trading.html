@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"> 
 
-<div th:replace="fragments/head-fragments :: tradingPageTempHead">...</div>
+<div th:replace="fragments/head-fragments :: tradingPageAjaxHead">...</div>
 
     <body>
         <div th:replace="fragments/header-fragment :: header">...</div>   
@@ -16,8 +16,9 @@
                             <span class="from-span">From</span>
                             <span class="to-span">To</span>
                                <br/>
-                                <select id="fromCity" name="fromCity" size="6" required multiple>
+                                <select id="fromCity" name="fromCity" size="7" required multiple>
                                     <option th:selected="${fromCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
+                                    <option th:selected="${fromCity.contains('Black Market')}">Black Market</option>
                                     <option th:selected="${fromCity.contains('Caerleon')}">Caerleon</option>
                                     <option th:selected="${fromCity.contains('Fort Sterling')}">Fort Sterling</option>
                                     <option th:selected="${fromCity.contains('Lymhurst')}">Lymhurst</option>
@@ -25,8 +26,9 @@
                                     <option th:selected="${fromCity.contains('Thetford')}">Thetford</option>
 
                                 </select>
-                                <select id="toCity" name="toCity" size="6" required multiple>
+                                <select id="toCity" name="toCity" size="7" required multiple>
                                     <option th:selected="${toCity.contains('Bridgewatch')} or ${fromCity.isEmpty()}">Bridgewatch</option>
+                                    <option th:selected="${toCity.contains('Black Market')}">Black Market</option>
                                     <option th:selected="${toCity.contains('Caerleon')}">Caerleon</option>
                                     <option th:selected="${toCity.contains('Fort Sterling')}">Fort Sterling</option>
                                     <option th:selected="${toCity.contains('Lymhurst')}">Lymhurst</option>
@@ -71,14 +73,14 @@
                 <div class="container-table100">
                     <div class="wrap-table100">
                         <div class="table100 ver2 m-b-110">
-                            <table id="table" class="tablee sortable" data-vertable="ver2">
+                            <table id="table" class="tablee" data-vertable="ver2">
                                 <thead>
                                     <tr class="row100 head">
                                         <th class="column100 column1" data-column="column1" th:text="#{trading.table.itemName}"></th>
                                         <th class="column100 column2" data-column="column2" th:text="#{trading.table.from}">From</th>
-                                        <th class="column100 column3" data-column="column3" th:text="#{trading.table.price}"></th>
+                                        <th class="column100 column3" data-column="column3" th:text="#{trading.table.price}">Price</th>
                                         <th class="column100 column4" data-column="column4" th:text="#{trading.table.to}">To</th>
-                                        <th class="column100 column5" data-column="column5" th:text="#{trading.table.price}"></th>
+                                        <th class="column100 column5" data-column="column5" th:text="#{trading.table.price}">Price</th>
                                         <th class="column100 column6" data-column="column6" th:text="#{trading.table.profit}">Profit</th>
                                     </tr>
                                 </thead>

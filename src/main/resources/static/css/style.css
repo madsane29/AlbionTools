@@ -166,6 +166,10 @@ body {
   width: 15vw;
 }
 
+.form .trading-input-fields-table select {
+  overflow-y: auto;
+}
+
 .form .trading-input-fields-table .cntr {
   margin: auto;
 }

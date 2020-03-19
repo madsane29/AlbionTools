@@ -1,13 +1,13 @@
 package com.albiontools.trading.model;
 
-public class AjaxTestModel {
+public class TradingTableObject {
 	private String itemName;
 	private String fromCity;
 	private String toCity;
 	private int fromPrice;
 	private int toPrice;
 	private int profit;
-	public AjaxTestModel(String itemName, String fromCity,int fromPrice, String toCity, int toPrice) {
+	public TradingTableObject(String itemName, String fromCity,int fromPrice, String toCity, int toPrice) {
 		super();
 		this.itemName = itemName;
 		this.fromCity = fromCity;

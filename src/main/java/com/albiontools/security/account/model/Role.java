@@ -10,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "roles")
 public class Role {
     @Id
@@ -20,6 +24,7 @@ public class Role {
 
 
     @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     public Role() {}

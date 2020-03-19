@@ -1,0 +1,207 @@
+ 580: T1_WOOD                                                          : Rough Logs
+ 581: T2_WOOD                                                          : Birch Logs
+ 582: T3_WOOD                                                          : Chestnut Logs
+ 583: T4_WOOD                                                          : Pine Logs
+ 584: T5_WOOD                                                          : Cedar Logs
+ 585: T6_WOOD                                                          : Bloodoak Logs
+ 586: T7_WOOD                                                          : Ashenbark Logs
+ 587: T8_WOOD                                                          : Whitewood Logs
+ 588: T4_WOOD_LEVEL1@1                                                 : Uncommon Pine Logs
+ 589: T5_WOOD_LEVEL1@1                                                 : Uncommon Cedar Logs
+ 590: T6_WOOD_LEVEL1@1                                                 : Uncommon Bloodoak Logs
+ 591: T7_WOOD_LEVEL1@1                                                 : Uncommon Ashenbark Logs
+ 592: T8_WOOD_LEVEL1@1                                                 : Uncommon Whitewood Logs
+ 593: T4_WOOD_LEVEL2@2                                                 : Rare Pine Logs
+ 594: T5_WOOD_LEVEL2@2                                                 : Rare Cedar Logs
+ 595: T6_WOOD_LEVEL2@2                                                 : Rare Bloodoak Logs
+ 596: T7_WOOD_LEVEL2@2                                                 : Rare Ashenbark Logs
+ 597: T8_WOOD_LEVEL2@2                                                 : Rare Whitewood Logs
+ 598: T4_WOOD_LEVEL3@3                                                 : Exceptional Pine Logs
+ 599: T5_WOOD_LEVEL3@3                                                 : Exceptional Cedar Logs
+ 600: T6_WOOD_LEVEL3@3                                                 : Exceptional Bloodoak Logs
+ 601: T7_WOOD_LEVEL3@3                                                 : Exceptional Ashenbark Logs
+ 602: T8_WOOD_LEVEL3@3                                                 : Exceptional Whitewood Logs
+ 603: T1_ROCK                                                          : Rough Stone
+ 604: T2_ROCK                                                          : Limestone
+ 605: T3_ROCK                                                          : Sandstone
+ 606: T4_ROCK                                                          : Travertine
+ 607: T5_ROCK                                                          : Granite
+ 608: T6_ROCK                                                          : Slate
+ 609: T7_ROCK                                                          : Basalt
+ 610: T8_ROCK                                                          : Marble
+ 611: T2_ORE                                                           : Copper Ore
+ 612: T3_ORE                                                           : Tin Ore
+ 613: T4_ORE                                                           : Iron Ore
+ 614: T5_ORE                                                           : Titanium Ore
+ 615: T6_ORE                                                           : Runite Ore
+ 616: T7_ORE                                                           : Meteorite Ore
+ 617: T8_ORE                                                           : Adamantium Ore
+ 618: T4_ORE_LEVEL1@1                                                  : Uncommon Iron Ore
+ 619: T5_ORE_LEVEL1@1                                                  : Uncommon Titanium Ore
+ 620: T6_ORE_LEVEL1@1                                                  : Uncommon Runite Ore
+ 621: T7_ORE_LEVEL1@1                                                  : Uncommon Meteorite Ore
+ 622: T8_ORE_LEVEL1@1                                                  : Uncommon Adamantium Ore
+ 623: T4_ORE_LEVEL2@2                                                  : Rare Iron Ore
+ 624: T5_ORE_LEVEL2@2                                                  : Rare Titanium Ore
+ 625: T6_ORE_LEVEL2@2                                                  : Rare Runite Ore
+ 626: T7_ORE_LEVEL2@2                                                  : Rare Meteorite Ore
+ 627: T8_ORE_LEVEL2@2                                                  : Rare Adamantium Ore
+ 628: T4_ORE_LEVEL3@3                                                  : Exceptional Iron Ore
+ 629: T5_ORE_LEVEL3@3                                                  : Exceptional Titanium Ore
+ 630: T6_ORE_LEVEL3@3                                                  : Exceptional Runite Ore
+ 631: T7_ORE_LEVEL3@3                                                  : Exceptional Meteorite Ore
+ 632: T8_ORE_LEVEL3@3                                                  : Exceptional Adamantium Ore
+ 633: T1_HIDE                                                          : Scraps of Hide
+ 634: T2_HIDE                                                          : Rugged Hide
+ 635: T3_HIDE                                                          : Thin Hide
+ 636: T4_HIDE                                                          : Medium Hide
+ 637: T5_HIDE                                                          : Heavy Hide
+ 638: T6_HIDE                                                          : Robust Hide
+ 639: T7_HIDE                                                          : Thick Hide
+ 640: T8_HIDE                                                          : Resilient Hide
+ 641: T4_HIDE_LEVEL1@1                                                 : Uncommon Medium Hide
+ 642: T5_HIDE_LEVEL1@1                                                 : Uncommon Heavy Hide
+ 643: T6_HIDE_LEVEL1@1                                                 : Uncommon Robust Hide
+ 644: T7_HIDE_LEVEL1@1                                                 : Uncommon Thick Hide
+ 645: T8_HIDE_LEVEL1@1                                                 : Uncommon Resilient Hide
+ 646: T4_HIDE_LEVEL2@2                                                 : Rare Medium Hide
+ 647: T5_HIDE_LEVEL2@2                                                 : Rare Heavy Hide
+ 648: T6_HIDE_LEVEL2@2                                                 : Rare Robust Hide
+ 649: T7_HIDE_LEVEL2@2                                                 : Rare Thick Hide
+ 650: T8_HIDE_LEVEL2@2                                                 : Rare Resilient Hide
+ 651: T4_HIDE_LEVEL3@3                                                 : Exceptional Medium Hide
+ 652: T5_HIDE_LEVEL3@3                                                 : Exceptional Heavy Hide
+ 653: T6_HIDE_LEVEL3@3                                                 : Exceptional Robust Hide
+ 654: T7_HIDE_LEVEL3@3                                                 : Exceptional Thick Hide
+ 655: T8_HIDE_LEVEL3@3                                                 : Exceptional Resilient Hide
+ 656: T2_FIBER                                                         : Cotton
+ 657: T3_FIBER                                                         : Flax
+ 658: T4_FIBER                                                         : Hemp
+ 659: T5_FIBER                                                         : Skyflower
+ 660: T6_FIBER                                                         : Redleaf Cotton
+ 661: T7_FIBER                                                         : Sunflax
+ 662: T8_FIBER                                                         : Ghost Hemp
+ 663: T4_FIBER_LEVEL1@1                                                : Uncommon Hemp
+ 664: T5_FIBER_LEVEL1@1                                                : Uncommon Skyflower
+ 665: T6_FIBER_LEVEL1@1                                                : Uncommon Redleaf Cotton
+ 666: T7_FIBER_LEVEL1@1                                                : Uncommon Sunflax
+ 667: T8_FIBER_LEVEL1@1                                                : Uncommon Ghost Hemp
+ 668: T4_FIBER_LEVEL2@2                                                : Rare Hemp
+ 669: T5_FIBER_LEVEL2@2                                                : Rare Skyflower
+ 670: T6_FIBER_LEVEL2@2                                                : Rare Redleaf Cotton
+ 671: T7_FIBER_LEVEL2@2                                                : Rare Sunflax
+ 672: T8_FIBER_LEVEL2@2                                                : Rare Ghost Hemp
+ 673: T4_FIBER_LEVEL3@3                                                : Exceptional Hemp
+ 674: T5_FIBER_LEVEL3@3                                                : Exceptional Skyflower
+ 675: T6_FIBER_LEVEL3@3                                                : Exceptional Redleaf Cotton
+ 676: T7_FIBER_LEVEL3@3                                                : Exceptional Sunflax
+ 677: T8_FIBER_LEVEL3@3                                                : Exceptional Ghost Hemp
+ 678: T2_PLANKS                                                        : Birch Planks
+ 679: T3_PLANKS                                                        : Chestnut Planks
+ 680: T4_PLANKS                                                        : Pine Planks
+ 681: T5_PLANKS                                                        : Cedar Planks
+ 682: T6_PLANKS                                                        : Bloodoak Planks
+ 683: T7_PLANKS                                                        : Ashenbark Planks
+ 684: T8_PLANKS                                                        : Whitewood Planks
+ 685: T4_PLANKS_LEVEL1@1                                               : Uncommon Pine Planks
+ 686: T5_PLANKS_LEVEL1@1                                               : Uncommon Cedar Planks
+ 687: T6_PLANKS_LEVEL1@1                                               : Uncommon Bloodoak Planks
+ 688: T7_PLANKS_LEVEL1@1                                               : Uncommon Ashenbark Planks
+ 689: T8_PLANKS_LEVEL1@1                                               : Uncommon Whitewood Planks
+ 690: T4_PLANKS_LEVEL2@2                                               : Rare Pine Planks
+ 691: T5_PLANKS_LEVEL2@2                                               : Rare Cedar Planks
+ 692: T6_PLANKS_LEVEL2@2                                               : Rare Bloodoak Planks
+ 693: T7_PLANKS_LEVEL2@2                                               : Rare Ashenbark Planks
+ 694: T8_PLANKS_LEVEL2@2                                               : Rare Whitewood Planks
+ 695: T4_PLANKS_LEVEL3@3                                               : Exceptional Pine Planks
+ 696: T5_PLANKS_LEVEL3@3                                               : Exceptional Cedar Planks
+ 697: T6_PLANKS_LEVEL3@3                                               : Exceptional Bloodoak Planks
+ 698: T7_PLANKS_LEVEL3@3                                               : Exceptional Ashenbark Planks
+ 699: T8_PLANKS_LEVEL3@3                                               : Exceptional Whitewood Planks
+ 700: T2_STONEBLOCK                                                    : Limestone Block
+ 701: T3_STONEBLOCK                                                    : Sandstone Block
+ 702: T4_STONEBLOCK                                                    : Travertine Block
+ 703: T5_STONEBLOCK                                                    : Granite Block
+ 704: T6_STONEBLOCK                                                    : Slate Block
+ 705: T7_STONEBLOCK                                                    : Basalt Block
+ 706: T8_STONEBLOCK                                                    : Marble Block
+ 707: T2_METALBAR                                                      : Copper Bar
+ 708: T3_METALBAR                                                      : Bronze Bar
+ 709: T4_METALBAR                                                      : Steel Bar
+ 710: T5_METALBAR                                                      : Titanium Steel Bar
+ 711: T6_METALBAR                                                      : Runite Steel Bar
+ 712: T7_METALBAR                                                      : Meteorite Steel Bar
+ 713: T8_METALBAR                                                      : Adamantium Steel Bar
+ 714: T4_METALBAR_LEVEL1@1                                             : Uncommon Steel Bar
+ 715: T5_METALBAR_LEVEL1@1                                             : Uncommon Titanium Steel Bar
+ 716: T6_METALBAR_LEVEL1@1                                             : Uncommon Runite Steel Bar
+ 717: T7_METALBAR_LEVEL1@1                                             : Uncommon Meteorite Steel Bar
+ 718: T8_METALBAR_LEVEL1@1                                             : Uncommon Adamantium Steel Bar
+ 719: T4_METALBAR_LEVEL2@2                                             : Rare Steel Bar
+ 720: T5_METALBAR_LEVEL2@2                                             : Rare Titanium Steel Bar
+ 721: T6_METALBAR_LEVEL2@2                                             : Rare Runite Steel Bar
+ 722: T7_METALBAR_LEVEL2@2                                             : Rare Meteorite Steel Bar
+ 723: T8_METALBAR_LEVEL2@2                                             : Rare Adamantium Steel Bar
+ 724: T4_METALBAR_LEVEL3@3                                             : Exceptional Steel Bar
+ 725: T5_METALBAR_LEVEL3@3                                             : Exceptional Titanium Steel Bar
+ 726: T6_METALBAR_LEVEL3@3                                             : Exceptional Runite Steel Bar
+ 727: T7_METALBAR_LEVEL3@3                                             : Exceptional Meteorite Steel Bar
+ 728: T8_METALBAR_LEVEL3@3                                             : Exceptional Adamantium Steel Bar
+ 729: T2_LEATHER                                                       : Stiff Leather
+ 730: T3_LEATHER                                                       : Thick Leather
+ 731: T4_LEATHER                                                       : Worked Leather
+ 732: T5_LEATHER                                                       : Cured Leather
+ 733: T6_LEATHER                                                       : Hardened Leather
+ 734: T7_LEATHER                                                       : Reinforced Leather
+ 735: T8_LEATHER                                                       : Fortified Leather
+ 736: T4_LEATHER_LEVEL1@1                                              : Uncommon Worked Leather
+ 737: T5_LEATHER_LEVEL1@1                                              : Uncommon Cured Leather
+ 738: T6_LEATHER_LEVEL1@1                                              : Uncommon Hardened Leather
+ 739: T7_LEATHER_LEVEL1@1                                              : Uncommon Reinforced Leather
+ 740: T8_LEATHER_LEVEL1@1                                              : Uncommon Fortified Leather
+ 741: T4_LEATHER_LEVEL2@2                                              : Rare Worked Leather
+ 742: T5_LEATHER_LEVEL2@2                                              : Rare Cured Leather
+ 743: T6_LEATHER_LEVEL2@2                                              : Rare Hardened Leather
+ 744: T7_LEATHER_LEVEL2@2                                              : Rare Reinforced Leather
+ 745: T8_LEATHER_LEVEL2@2                                              : Rare Fortified Leather
+ 746: T4_LEATHER_LEVEL3@3                                              : Exceptional Worked Leather
+ 747: T5_LEATHER_LEVEL3@3                                              : Exceptional Cured Leather
+ 748: T6_LEATHER_LEVEL3@3                                              : Exceptional Hardened Leather
+ 749: T7_LEATHER_LEVEL3@3                                              : Exceptional Reinforced Leather
+ 750: T8_LEATHER_LEVEL3@3                                              : Exceptional Fortified Leather
+ 751: T2_CLOTH                                                         : Simple Cloth
+ 752: T3_CLOTH                                                         : Neat Cloth
+ 753: T4_CLOTH                                                         : Fine Cloth
+ 754: T5_CLOTH                                                         : Ornate Cloth
+ 755: T6_CLOTH                                                         : Lavish Cloth
+ 756: T7_CLOTH                                                         : Opulent Cloth
+ 757: T8_CLOTH                                                         : Baroque Cloth
+ 758: T4_CLOTH_LEVEL1@1                                                : Uncommon Fine Cloth
+ 759: T5_CLOTH_LEVEL1@1                                                : Uncommon Ornate Cloth
+ 760: T6_CLOTH_LEVEL1@1                                                : Uncommon Lavish Cloth
+ 761: T7_CLOTH_LEVEL1@1                                                : Uncommon Opulent Cloth
+ 762: T8_CLOTH_LEVEL1@1                                                : Uncommon Baroque Cloth
+ 763: T4_CLOTH_LEVEL2@2                                                : Rare Fine Cloth
+ 764: T5_CLOTH_LEVEL2@2                                                : Rare Ornate Cloth
+ 765: T6_CLOTH_LEVEL2@2                                                : Rare Lavish Cloth
+ 766: T7_CLOTH_LEVEL2@2                                                : Rare Opulent Cloth
+ 767: T8_CLOTH_LEVEL2@2                                                : Rare Baroque Cloth
+ 768: T4_CLOTH_LEVEL3@3                                                : Exceptional Fine Cloth
+ 769: T5_CLOTH_LEVEL3@3                                                : Exceptional Ornate Cloth
+ 770: T6_CLOTH_LEVEL3@3                                                : Exceptional Lavish Cloth
+ 771: T7_CLOTH_LEVEL3@3                                                : Exceptional Opulent Cloth
+ 772: T8_CLOTH_LEVEL3@3                                                : Exceptional Baroque Cloth
+ 566: T3_MEAT                                                          : Raw Chicken
+ 567: T4_MEAT                                                          : Raw Goat
+ 568: T5_MEAT                                                          : Raw Goose
+ 569: T6_MEAT                                                          : Raw Mutton
+ 570: T7_MEAT                                                          : Raw Pork
+ 571: T8_MEAT                                                          : Raw Beef
+ 572: T4_BUTTER                                                        : Goat's Butter
+ 573: T6_BUTTER                                                        : Sheep's Butter
+ 574: T8_BUTTER                                                        : Cow's Butter
+ 575: T6_ALCOHOL                                                       : Potato Schnapps
+ 576: T7_ALCOHOL                                                       : Corn Hooch
+ 577: T8_ALCOHOL                                                       : Pumpkin Moonshine
+ 578: T4_BREAD                                                         : Bread
+ 579: T3_FLOUR                                                         : Flour

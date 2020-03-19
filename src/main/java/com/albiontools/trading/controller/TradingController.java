@@ -22,9 +22,6 @@ public class TradingController {
 	private static final String ROOT_OF_CLASS = "trading";
 	
 	
-	@Autowired
-	private TradingService tradingService;
-	
 	@GetMapping("")
 	public String getTradingPage(Model model) {
 		model.addAttribute("profitMinimum", 0);
