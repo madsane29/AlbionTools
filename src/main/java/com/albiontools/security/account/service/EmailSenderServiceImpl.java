@@ -43,7 +43,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	public void sendVerificationEmail(User user) {
         SimpleMailMessage mailMessage = setGeneralEmailProperties(user);
         mailMessage.setSubject(messageSource.getMessage("emailSenderService.verificationEmail.subject", null, LocaleContextHolder.getLocale()));
-        mailMessage.setText(messageSource.getMessage("emailSenderService.verificationEmail.text", null, LocaleContextHolder.getLocale()));
+        mailMessage.setText(messageSource.getMessage("emailSenderService.verificationEmail.text", null, LocaleContextHolder.getLocale()) + user.getConfirmationToken().getConfirmationToken());
         
         javaMailSender.send(mailMessage);
 	}
@@ -53,7 +53,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 	public void sendForgotPasswordEmail(User user) {
         SimpleMailMessage mailMessage = setGeneralEmailProperties(user);
         mailMessage.setSubject(messageSource.getMessage("emailSenderService.forgotPasswordEmail.subject", null, LocaleContextHolder.getLocale()));
-        mailMessage.setText(messageSource.getMessage("emailSenderService.forgotPasswordEmail.text", null, LocaleContextHolder.getLocale()));
+        mailMessage.setText(messageSource.getMessage("emailSenderService.forgotPasswordEmail.text", null, LocaleContextHolder.getLocale()) + user.getConfirmationToken().getConfirmationToken());
 
         javaMailSender.send(mailMessage);
 	}

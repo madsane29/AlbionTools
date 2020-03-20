@@ -19,15 +19,18 @@ import com.albiontools.logger.CustomLogger;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-	private CustomLogger customLogger = new CustomLogger(getClass());
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
-		//customLogger.loggerWarnWithHttpServletRequestAndExceptionParam(request, exception);
-		if (exception instanceof BadCredentialsException) response.sendRedirect("/user/bad-credentials");
-		else if (exception instanceof DisabledException) response.sendRedirect("/user/disabled-account");
+		if (exception instanceof DisabledException) {
+			response.sendRedirect("/user/disabled-account");
+		} else
+		if (exception instanceof BadCredentialsException) { 
+			response.sendRedirect("/user/bad-credentials");
+		}
+		
 
 	}
 
