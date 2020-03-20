@@ -9,7 +9,7 @@ Used technologies:
 
    -Thymeleaf
 
-   -HTML/CSS/JavaScript(+AJAX)
+   -HTML/CSS(SCSS)/JavaScript(+AJAX)
 
    -MySQL
 
